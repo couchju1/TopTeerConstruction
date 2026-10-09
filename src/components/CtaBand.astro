@@ -1,0 +1,69 @@
+---
+import Button from './Button.astro';
+import Fact from './Fact.astro';
+import { estimatePath, telHref } from '../lib/config';
+import { copy } from '../lib/copy';
+
+export interface Props {
+  heading?: string;
+  body?: string;
+  label?: string;
+}
+
+const { heading, body, label = copy.footerCta.button } = Astro.props;
+---
+<section class="cta-band" aria-labelledby="cta-band-heading">
+  <div class="cta-band-inner container">
+    <h2 id="cta-band-heading">{heading ?? <Fact field="copy.footerCta.heading" />}</h2>
+    <p>{body ?? <Fact field="copy.footerCta.body" />}</p>
+    <div class="cta-band-actions">
+      <Button href={estimatePath}>{label}</Button>
+      <a class="cta-band-phone" href={telHref}><Fact field="contact.phoneDisplay" /></a>
+    </div>
+  </div>
+</section>
+
+<style>
+  .cta-band {
+    padding-block: var(--space-8);
+    background: var(--color-band);
+    color: var(--color-on-band);
+  }
+
+  .cta-band-inner {
+    display: grid;
+    justify-items: center;
+    gap: var(--space-4);
+    text-align: center;
+  }
+
+  .cta-band-inner h2 {
+    max-width: 22ch;
+    text-align: center;
+  }
+
+  .cta-band-inner p {
+    max-width: 52ch;
+  }
+
+  .cta-band-actions {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: center;
+    gap: var(--space-4) var(--space-5);
+    margin-top: var(--space-3);
+  }
+
+  .cta-band-phone {
+    display: inline-flex;
+    align-items: center;
+    min-height: 48px;
+    font-weight: 600;
+    color: inherit;
+  }
+
+  .cta-band-phone:hover {
+    color: var(--color-accent-on-band);
+  }
+</style>

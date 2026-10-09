@@ -6,6 +6,7 @@ export const copy = {
     body: '[CONFIRM: plan.md Phase 5 Global] Tell me what you want to build and I will come look at it.',
     button: 'Get a free estimate',
   },
+  reviewsHeading: '[CONFIRM: plan.md Phase 5] What people say',
   footer: {
     contactHeading: 'Contact',
     hoursHeading: 'Hours',

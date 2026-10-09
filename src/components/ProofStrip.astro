@@ -1,0 +1,47 @@
+---
+interface Props {
+  items: [string, string, string];
+}
+
+const { items } = Astro.props;
+---
+<ul class="proof-strip" role="list">
+  {items.map((item) => <li class="proof-strip-item">{item}</li>)}
+</ul>
+
+<style>
+  .proof-strip {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 0;
+  }
+
+  .proof-strip-item {
+    padding: var(--space-4) 0;
+    font-weight: 600;
+    border-top: 1px solid var(--color-line);
+  }
+
+  .proof-strip-item:first-child {
+    border-top: 0;
+  }
+
+  @media (min-width: 36rem) {
+    .proof-strip {
+      grid-template-columns: repeat(3, auto);
+      justify-content: start;
+      column-gap: var(--space-6);
+    }
+
+    .proof-strip-item {
+      padding: 0 0 0 var(--space-6);
+      border-top: 0;
+      border-left: 2px solid var(--color-accent);
+    }
+
+    .proof-strip-item:first-child {
+      padding-left: 0;
+      border-left: 0;
+    }
+  }
+</style>

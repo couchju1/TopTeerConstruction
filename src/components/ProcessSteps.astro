@@ -1,0 +1,230 @@
+---
+interface Step {
+  title: string;
+  body: string;
+}
+
+interface Props {
+  steps: Step[];
+  layout?: 'track' | 'vertical';
+}
+
+const { steps, layout = 'track' } = Astro.props;
+---
+<div class:list={['process-steps', `process-steps-${layout}`]} data-process-steps data-layout={layout}>
+  <span class="process-steps-plumb" aria-hidden="true"></span>
+  <ol class="process-steps-list" role="list">
+    {
+      steps.map((step, index) => (
+        <li class="process-steps-item" data-step>
+          <span class="process-steps-number" aria-hidden="true">
+            {String(index + 1).padStart(2, '0')}
+          </span>
+          <h3 class="process-steps-title">
+            <span class="visually-hidden">Step {index + 1}: </span>
+            {step.title}
+          </h3>
+          <p class="process-steps-body">{step.body}</p>
+        </li>
+      ))
+    }
+  </ol>
+</div>
+
+<style>
+  .process-steps {
+    --rail: currentColor;
+    position: relative;
+  }
+
+  .process-steps-list {
+    position: relative;
+    display: grid;
+    gap: var(--space-6);
+    padding-left: var(--space-6);
+    border-left: 1px solid color-mix(in srgb, currentColor 30%, transparent);
+  }
+
+  .process-steps-plumb {
+    display: none;
+  }
+
+  .process-steps-number {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 2.75rem;
+    height: 2.75rem;
+    margin-bottom: var(--space-3);
+    border: 1px solid color-mix(in srgb, currentColor 45%, transparent);
+    border-radius: var(--radius-pill);
+    font-family: var(--font-display-stack);
+    font-weight: 600;
+    font-size: var(--step-0);
+    transition:
+      background-color var(--dur-base) var(--ease-out),
+      border-color var(--dur-base) var(--ease-out),
+      color var(--dur-base) var(--ease-out);
+  }
+
+  .process-steps-title {
+    font-size: var(--step-1);
+    margin-bottom: var(--space-2);
+  }
+
+  .process-steps-body {
+    max-width: 38ch;
+  }
+
+  .process-steps-item[data-state="active"] .process-steps-number {
+    border-color: var(--color-accent);
+    background: var(--color-accent);
+    color: var(--color-on-accent);
+  }
+
+  .process-steps-item[data-state="done"] .process-steps-number {
+    border-color: var(--color-accent);
+  }
+
+  :global(.js) .process-steps-plumb {
+    display: block;
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 2px;
+    height: 2.75rem;
+    margin-left: -0.5px;
+    background: var(--color-accent);
+    transform: translateY(var(--plumb-y, 0px));
+    transition: transform var(--dur-slow) var(--ease-out);
+    z-index: 1;
+  }
+
+  :global(.js) .process-steps-plumb::after {
+    content: "";
+    position: absolute;
+    left: -3px;
+    bottom: -6px;
+    width: 8px;
+    height: 8px;
+    background: var(--color-accent);
+    border-radius: 50% 0 50% 50%;
+    transform: rotate(-45deg);
+  }
+
+  .process-steps-vertical .process-steps-number {
+    min-width: 0;
+    height: auto;
+    border: 0;
+    border-radius: 0;
+    font-size: var(--step-4);
+    line-height: 1;
+    color: color-mix(in srgb, currentColor 55%, transparent);
+  }
+
+  .process-steps-vertical .process-steps-item[data-state="active"] .process-steps-number {
+    background: none;
+    color: var(--color-accent);
+  }
+
+  .process-steps-vertical .process-steps-item[data-state="done"] .process-steps-number {
+    color: currentColor;
+  }
+
+  :global(.js) .process-steps-vertical .process-steps-plumb {
+    height: 3.5rem;
+  }
+
+  @media (min-width: 64rem) {
+    .process-steps-track .process-steps-list {
+      grid-auto-flow: column;
+      grid-auto-columns: 1fr;
+      gap: var(--space-6);
+      padding-left: 0;
+      padding-top: var(--space-6);
+      border-left: 0;
+      border-top: 1px solid color-mix(in srgb, currentColor 30%, transparent);
+    }
+
+    :global(.js) .process-steps-track .process-steps-plumb {
+      height: var(--space-6);
+      margin-left: 0;
+      transform: translateX(var(--plumb-x, 0px));
+    }
+  }
+</style>
+
+<script>
+  const desktop = window.matchMedia('(min-width: 64rem)');
+
+  for (const root of document.querySelectorAll<HTMLElement>('[data-process-steps]')) {
+    const items = Array.from(root.querySelectorAll<HTMLElement>('[data-step]'));
+    const plumb = root.querySelector<HTMLElement>('.process-steps-plumb');
+    const horizontal = () => root.dataset.layout === 'track' && desktop.matches;
+    let active = -1;
+
+    const setActive = (index: number) => {
+      if (index === active) return;
+      active = index;
+      items.forEach((item, i) => {
+        item.dataset.state = i < index ? 'done' : i === index ? 'active' : 'upcoming';
+        if (i === index) item.setAttribute('aria-current', 'step');
+        else item.removeAttribute('aria-current');
+      });
+      const target = items[index];
+      if (!plumb || !target) return;
+      const rootRect = root.getBoundingClientRect();
+      const rect = target.getBoundingClientRect();
+      root.style.setProperty('--plumb-x', horizontal() ? `${rect.left - rootRect.left}px` : '0px');
+      root.style.setProperty('--plumb-y', horizontal() ? '0px' : `${rect.top - rootRect.top}px`);
+    };
+
+    const pick = () => {
+      const center = window.innerHeight / 2;
+      if (horizontal()) {
+        const rect = root.getBoundingClientRect();
+        const progress = (center - rect.top + rect.height) / (window.innerHeight + rect.height);
+        const clamped = Math.min(Math.max(progress, 0), 0.999);
+        setActive(Math.floor(clamped * items.length));
+        return;
+      }
+      let best = 0;
+      let bestDistance = Infinity;
+      items.forEach((item, i) => {
+        const rect = item.getBoundingClientRect();
+        const distance = Math.abs(rect.top + rect.height / 2 - center);
+        if (distance < bestDistance) {
+          bestDistance = distance;
+          best = i;
+        }
+      });
+      setActive(best);
+    };
+
+    let frame = 0;
+    const schedule = () => {
+      cancelAnimationFrame(frame);
+      frame = requestAnimationFrame(pick);
+    };
+
+    new IntersectionObserver(([entry]) => {
+      if (entry.isIntersecting) {
+        window.addEventListener('scroll', schedule, { passive: true });
+        schedule();
+      } else {
+        window.removeEventListener('scroll', schedule);
+      }
+    }).observe(root);
+
+    window.addEventListener('resize', () => {
+      active = -1;
+      schedule();
+    });
+    desktop.addEventListener('change', () => {
+      active = -1;
+      schedule();
+    });
+    setActive(0);
+    schedule();
+  }
+</script>

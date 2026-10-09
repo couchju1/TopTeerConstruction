@@ -4,6 +4,13 @@ import { copy } from './copy';
 export type SiteConfig = typeof siteConfig;
 export type Service = SiteConfig['services'][number];
 
+export interface Review {
+  name: string;
+  town: string;
+  text: string;
+  service?: string;
+}
+
 const PLACEHOLDER_MARKERS = ['[CONFIRM', '[NEEDS CLIENT PROOF'];
 
 const sources: Record<string, unknown> = { ...siteConfig, copy };
@@ -56,6 +63,10 @@ export const location = siteConfig.location;
 export const site = siteConfig.site;
 export const social = siteConfig.social;
 export const services = siteConfig.services;
+export const reviews = {
+  minimumToShow: siteConfig.reviews.minimumToShow,
+  items: siteConfig.reviews.items as Review[],
+};
 
 export const telHref = `tel:${contact.phoneE164}`;
 export const mailHref = `mailto:${contact.email}`;

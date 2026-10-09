@@ -1,20 +1,9 @@
 ---
 import Fact from './Fact.astro';
-import { business, contact, estimatePath, location, mailHref, privacyPath, social, telHref } from '../lib/config';
+import { business, contact, location, mailHref, privacyPath, social, telHref } from '../lib/config';
 import { copy } from '../lib/copy';
 ---
 <footer class="site-footer">
-  <section class="site-footer-cta" aria-labelledby="footer-cta-heading">
-    <div class="container site-footer-cta-inner">
-      <h2 id="footer-cta-heading"><Fact field="copy.footerCta.heading" /></h2>
-      <p><Fact field="copy.footerCta.body" /></p>
-      <div class="site-footer-cta-actions">
-        <a class="site-footer-cta-button" href={estimatePath}>{copy.footerCta.button}</a>
-        <a class="site-footer-cta-phone" href={telHref}><Fact field="contact.phoneDisplay" /></a>
-      </div>
-    </div>
-  </section>
-
   <div class="site-footer-main container">
     <div class="site-footer-brand">
       <p class="site-footer-name">{business.name}</p>
@@ -64,63 +53,6 @@ import { copy } from '../lib/copy';
 
   .site-footer a:hover {
     color: var(--color-accent-on-band);
-  }
-
-  .site-footer-cta {
-    background: var(--color-band);
-    padding-block: var(--space-8);
-  }
-
-  .site-footer-cta-inner {
-    display: grid;
-    justify-items: center;
-    gap: var(--space-4);
-    text-align: center;
-  }
-
-  .site-footer-cta-inner h2 {
-    text-align: center;
-    max-width: 22ch;
-  }
-
-  .site-footer-cta-inner p {
-    max-width: 52ch;
-  }
-
-  .site-footer-cta-actions {
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: center;
-    align-items: center;
-    gap: var(--space-4) var(--space-5);
-    margin-top: var(--space-3);
-  }
-
-  .site-footer-cta-button {
-    display: inline-flex;
-    align-items: center;
-    min-height: 48px;
-    padding: 0 var(--space-5);
-    background: var(--color-accent);
-    color: var(--color-on-accent) !important;
-    font-weight: 600;
-    text-decoration: none;
-    border-radius: var(--radius-md);
-  }
-
-  .site-footer-cta-button:hover {
-    background: var(--color-accent-hover);
-  }
-
-  .site-footer-cta-button:active {
-    transform: translateY(1px);
-  }
-
-  .site-footer-cta-phone {
-    display: inline-flex;
-    align-items: center;
-    min-height: 48px;
-    font-weight: 600;
   }
 
   .site-footer-main {

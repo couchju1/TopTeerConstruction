@@ -5,15 +5,17 @@ import '../styles/base.css';
 import Header from '../components/Header.astro';
 import Footer from '../components/Footer.astro';
 import MobileBar from '../components/MobileBar.astro';
-import { business, site } from '../lib/config';
+import CtaBand, { type Props as CtaProps } from '../components/CtaBand.astro';
+import { business } from '../lib/config';
 import { copy } from '../lib/copy';
 
 interface Props {
   title?: string;
   description?: string;
+  cta?: CtaProps | false;
 }
 
-const { title = business.name, description = business.tagline } = Astro.props;
+const { title = business.name, description = business.tagline, cta = {} } = Astro.props;
 ---
 <!doctype html>
 <html lang="en">
@@ -34,6 +36,7 @@ const { title = business.name, description = business.tagline } = Astro.props;
     <Header />
     <main id="main" tabindex="-1">
       <slot />
+      {cta && <CtaBand {...cta} />}
     </main>
     <Footer />
     <MobileBar />

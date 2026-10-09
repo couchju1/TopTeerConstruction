@@ -1,0 +1,61 @@
+---
+import type { HTMLAttributes } from 'astro/types';
+
+type Props = HTMLAttributes<'section'> & {
+  tone?: 'limestone' | 'white' | 'spruce';
+  width?: 'full' | 'contained';
+  grid?: '7-5' | '5-7' | '8-4';
+};
+
+const { tone = 'limestone', width = 'contained', grid, class: className, ...rest } = Astro.props;
+---
+<section class:list={['section', `section-${tone}`, className]} {...rest}>
+  <div class:list={['section-inner', width === 'contained' && 'container', grid && `section-grid section-grid-${grid}`]}>
+    <slot />
+  </div>
+</section>
+
+<style>
+  .section {
+    padding-block: var(--space-8);
+  }
+
+  .section-limestone {
+    background: var(--color-paper);
+    color: var(--color-ink);
+  }
+
+  .section-white {
+    background: var(--color-white);
+    color: var(--color-ink);
+  }
+
+  .section-spruce {
+    background: var(--color-band);
+    color: var(--color-on-band);
+  }
+
+  .section-grid {
+    display: grid;
+    gap: var(--space-6);
+    align-items: center;
+  }
+
+  @media (min-width: 48rem) {
+    .section-grid {
+      gap: var(--space-7);
+    }
+
+    .section-grid-7-5 {
+      grid-template-columns: 7fr 5fr;
+    }
+
+    .section-grid-5-7 {
+      grid-template-columns: 5fr 7fr;
+    }
+
+    .section-grid-8-4 {
+      grid-template-columns: 8fr 4fr;
+    }
+  }
+</style>

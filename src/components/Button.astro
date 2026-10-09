@@ -1,0 +1,119 @@
+---
+import type { HTMLAttributes } from 'astro/types';
+
+type Props = HTMLAttributes<'a'> &
+  HTMLAttributes<'button'> & {
+    variant?: 'primary' | 'secondary';
+    onDark?: boolean;
+    disabled?: boolean;
+    href?: string;
+  };
+
+const { variant = 'primary', onDark = false, disabled = false, href, class: className, ...rest } = Astro.props;
+
+const classes = ['button', `button-${variant}`, onDark && 'button-on-dark', className];
+---
+{
+  href ? (
+    disabled ? (
+      <a class:list={classes} role="link" aria-disabled="true" {...rest}>
+        <slot />
+      </a>
+    ) : (
+      <a class:list={classes} href={href} {...rest}>
+        <slot />
+      </a>
+    )
+  ) : (
+    <button class:list={classes} type="button" aria-disabled={disabled ? 'true' : undefined} {...rest}>
+      <slot />
+    </button>
+  )
+}
+
+<style>
+  .button {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: var(--space-2);
+    min-height: 48px;
+    padding: 0 var(--space-5);
+    border: 1px solid transparent;
+    border-radius: var(--radius-md);
+    font-family: var(--font-body-stack);
+    font-size: var(--step-0);
+    font-weight: 600;
+    line-height: 1.2;
+    text-decoration: none;
+    white-space: nowrap;
+    transition:
+      background-color var(--dur-fast) var(--ease-out),
+      color var(--dur-fast) var(--ease-out),
+      border-color var(--dur-fast) var(--ease-out);
+  }
+
+  .button:focus-visible {
+    box-shadow: var(--shadow-focus);
+  }
+
+  .button:active:not([aria-disabled="true"]) {
+    transform: translateY(1px);
+  }
+
+  .button-primary {
+    background: var(--color-accent);
+    color: var(--color-on-accent);
+  }
+
+  .button-primary:hover:not([aria-disabled="true"]) {
+    background: var(--color-accent-hover);
+  }
+
+  .button-secondary {
+    background: transparent;
+    color: var(--color-ink);
+    border-color: var(--color-ink);
+  }
+
+  .button-secondary:hover:not([aria-disabled="true"]) {
+    background: var(--color-ink);
+    color: var(--color-paper);
+  }
+
+  .button-secondary.button-on-dark {
+    color: var(--color-on-band);
+    border-color: var(--color-on-band);
+  }
+
+  .button-secondary.button-on-dark:hover:not([aria-disabled="true"]) {
+    background: var(--color-on-band);
+    color: var(--color-band);
+  }
+
+  .button[aria-disabled="true"] {
+    cursor: not-allowed;
+    background: var(--color-line);
+    border-color: var(--color-line);
+    color: var(--color-ink-muted);
+  }
+
+  .button-on-dark[aria-disabled="true"] {
+    background: #3a3a3a;
+    border-color: #3a3a3a;
+    color: #bdbdb8;
+  }
+</style>
+
+<script>
+  document.addEventListener(
+    'click',
+    (event) => {
+      if ((event.target as Element).closest?.('.button[aria-disabled="true"]')) {
+        event.preventDefault();
+        event.stopImmediatePropagation();
+      }
+    },
+    true,
+  );
+</script>
