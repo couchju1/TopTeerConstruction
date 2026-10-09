@@ -1,0 +1,63 @@
+@font-face {
+  font-family: "Zilla Slab";
+  font-style: normal;
+  font-weight: 500;
+  font-display: swap;
+  src: url("/fonts/zilla-slab-latin-500-normal.woff2") format("woff2");
+}
+
+@font-face {
+  font-family: "Zilla Slab";
+  font-style: normal;
+  font-weight: 600;
+  font-display: swap;
+  src: url("/fonts/zilla-slab-latin-600-normal.woff2") format("woff2");
+}
+
+@font-face {
+  font-family: "Public Sans";
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url("/fonts/public-sans-latin-400-normal.woff2") format("woff2");
+}
+
+@font-face {
+  font-family: "Public Sans";
+  font-style: normal;
+  font-weight: 600;
+  font-display: swap;
+  src: url("/fonts/public-sans-latin-600-normal.woff2") format("woff2");
+}
+
+@font-face {
+  font-family: "Zilla Slab Fallback";
+  src: local("Georgia");
+  ascent-override: 96.9668%;
+  descent-override: 26.2961%;
+  line-gap-override: 0%;
+  size-adjust: 97.3529%;
+}
+
+@font-face {
+  font-family: "Public Sans Fallback";
+  src: local("Arial"), local("ArialMT"), local("Helvetica");
+  ascent-override: 90.5905%;
+  descent-override: 21.4557%;
+  line-gap-override: 0%;
+  size-adjust: 104.8675%;
+}
+
+@font-face {
+  font-family: "Public Sans Fallback Roboto";
+  src: local("Roboto Regular"), local("Roboto-Regular");
+  ascent-override: 90.5905%;
+  descent-override: 21.4087%;
+  line-gap-override: 0%;
+  size-adjust: 105.0977%;
+}
+
+:root {
+  --font-display-stack: "Zilla Slab", "Zilla Slab Fallback", var(--font-display);
+  --font-body-stack: "Public Sans", "Public Sans Fallback", "Public Sans Fallback Roboto", var(--font-body);
+}

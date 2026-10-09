@@ -1,0 +1,79 @@
+---
+import { business, estimatePath, telHref } from '../lib/config';
+import { copy } from '../lib/copy';
+---
+<nav class="mobile-bar" aria-label="Quick contact" data-mobile-bar>
+  <a class="mobile-bar-call" href={telHref}>
+    <svg width="20" height="20" viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+      <path
+        d="M6.6 10.8a15.1 15.1 0 0 0 6.6 6.6l2.2-2.2a1 1 0 0 1 1-.25 11.4 11.4 0 0 0 3.6.57 1 1 0 0 1 1 1V20a1 1 0 0 1-1 1A17 17 0 0 1 3 4a1 1 0 0 1 1-1h3.5a1 1 0 0 1 1 1c0 1.25.2 2.45.57 3.57a1 1 0 0 1-.25 1z"
+        fill="currentColor"
+      />
+    </svg>
+    Call {business.owner}
+  </a>
+  <a class="mobile-bar-estimate" href={estimatePath}>{copy.estimateCta}</a>
+</nav>
+
+<style>
+  .mobile-bar {
+    display: none;
+  }
+
+  @media (max-width: 47.99rem) {
+    .mobile-bar {
+      position: fixed;
+      inset: auto 0 0;
+      z-index: 40;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      height: calc(var(--mobile-bar-h) + env(safe-area-inset-bottom, 0px));
+      padding-bottom: env(safe-area-inset-bottom, 0px);
+      background: var(--color-band-deep);
+      box-shadow: var(--shadow-md);
+      transition:
+        transform var(--dur-base) var(--ease-out),
+        visibility var(--dur-base);
+    }
+
+    .mobile-bar.is-hidden {
+      transform: translateY(100%);
+      visibility: hidden;
+    }
+  }
+
+  .mobile-bar a {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: var(--space-2);
+    height: var(--mobile-bar-h);
+    font-weight: 600;
+    text-decoration: none;
+  }
+
+  .mobile-bar a:focus-visible {
+    box-shadow: inset 0 0 0 3px var(--color-white);
+    border-radius: 0;
+  }
+
+  .mobile-bar-call {
+    color: var(--color-on-band);
+  }
+
+  .mobile-bar-estimate {
+    background: var(--color-accent);
+    color: var(--color-on-accent);
+  }
+</style>
+
+<script>
+  const bar = document.querySelector<HTMLElement>('[data-mobile-bar]');
+  const form = document.querySelector<HTMLElement>('[data-estimate-form]');
+
+  if (bar && form) {
+    new IntersectionObserver(([entry]) => {
+      bar.classList.toggle('is-hidden', entry.isIntersecting);
+    }).observe(form);
+  }
+</script>

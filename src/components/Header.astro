@@ -1,0 +1,396 @@
+---
+import Fact from './Fact.astro';
+import { estimatePath, isCurrent, navItems, telHref, wordmarkFirst, wordmarkRest, wordmarkSuffix } from '../lib/config';
+import { copy } from '../lib/copy';
+
+const pathname = Astro.url.pathname;
+---
+<header class="site-header" data-site-header>
+  <div class="site-header-inner container">
+    <a class="site-header-wordmark" href="/">
+      <span class="site-header-wordmark-main">{wordmarkFirst} <span class="site-header-wordmark-accent">{wordmarkRest}</span></span>
+      <span class="site-header-wordmark-sub">{wordmarkSuffix}</span>
+    </a>
+
+    <button
+      class="site-header-toggle"
+      type="button"
+      aria-expanded="false"
+      aria-controls="site-menu"
+      data-menu-toggle
+    >
+      <svg class="site-header-icon-open" width="24" height="24" viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+        <path d="M3 6h18M3 12h18M3 18h18" stroke="currentColor" stroke-width="2" stroke-linecap="square" fill="none" />
+      </svg>
+      <svg class="site-header-icon-close" width="24" height="24" viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+        <path d="M5 5l14 14M19 5L5 19" stroke="currentColor" stroke-width="2" stroke-linecap="square" fill="none" />
+      </svg>
+      <span class="visually-hidden">Menu</span>
+    </button>
+
+    <div class="site-header-menu" id="site-menu" data-menu>
+      <nav class="site-header-nav" aria-label="Main">
+        <ul role="list">
+          {navItems.map((item) => {
+            const current = isCurrent(item.href, pathname);
+            return (
+              <li>
+                <a href={item.href} class="site-header-link" aria-current={current ? 'page' : undefined}>
+                  {item.label}
+                </a>
+              </li>
+            );
+          })}
+        </ul>
+      </nav>
+
+      <div class="site-header-actions">
+        <a class="site-header-phone" href={telHref}>
+          <svg width="18" height="18" viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+            <path
+              d="M6.6 10.8a15.1 15.1 0 0 0 6.6 6.6l2.2-2.2a1 1 0 0 1 1-.25 11.4 11.4 0 0 0 3.6.57 1 1 0 0 1 1 1V20a1 1 0 0 1-1 1A17 17 0 0 1 3 4a1 1 0 0 1 1-1h3.5a1 1 0 0 1 1 1c0 1.25.2 2.45.57 3.57a1 1 0 0 1-.25 1z"
+              fill="currentColor"
+            />
+          </svg>
+          <Fact field="contact.phoneDisplay" />
+        </a>
+        <a class="site-header-cta" href={estimatePath}>{copy.estimateCta}</a>
+      </div>
+    </div>
+  </div>
+</header>
+
+<style>
+  .site-header {
+    --header-h: 4.5rem;
+    position: fixed;
+    inset: 0 0 auto;
+    z-index: 50;
+    background: var(--color-paper);
+    border-bottom: 1px solid var(--color-line);
+    transition: box-shadow var(--dur-base) var(--ease-out);
+  }
+
+  .site-header.is-scrolled {
+    --header-h: 3.75rem;
+    box-shadow: var(--shadow-sm);
+  }
+
+  .site-header-inner {
+    display: flex;
+    align-items: center;
+    gap: var(--space-5);
+    height: var(--header-h);
+    transition: height var(--dur-base) var(--ease-out);
+  }
+
+  .site-header-wordmark {
+    display: flex;
+    flex-direction: column;
+    flex-shrink: 0;
+    min-height: 44px;
+    justify-content: center;
+    text-decoration: none;
+    line-height: 1;
+  }
+
+  .site-header-wordmark-main {
+    font-family: var(--font-display-stack);
+    font-weight: 600;
+    font-size: var(--step-2);
+    letter-spacing: 0.02em;
+    text-transform: uppercase;
+  }
+
+  .site-header-wordmark-accent {
+    color: var(--color-accent);
+  }
+
+  .site-header-wordmark-sub {
+    display: flex;
+    align-items: center;
+    gap: 0.5em;
+    margin-top: 0.2em;
+    font-size: 0.6875rem;
+    font-weight: 600;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--color-ink-muted);
+  }
+
+  .site-header-wordmark-sub::before,
+  .site-header-wordmark-sub::after {
+    content: "";
+    flex: 1;
+    height: 2px;
+    background: var(--color-accent);
+  }
+
+  .site-header-toggle {
+    display: none;
+    margin-left: auto;
+    width: 44px;
+    height: 44px;
+    align-items: center;
+    justify-content: center;
+    padding: 0;
+    background: none;
+    border: 1px solid var(--color-ink);
+    border-radius: var(--radius-md);
+  }
+
+  .site-header-icon-close {
+    display: none;
+  }
+
+  .site-header-toggle[aria-expanded="true"] .site-header-icon-open {
+    display: none;
+  }
+
+  .site-header-toggle[aria-expanded="true"] .site-header-icon-close {
+    display: block;
+  }
+
+  .site-header-menu {
+    display: flex;
+    align-items: center;
+    gap: var(--space-5);
+    flex: 1;
+  }
+
+  .site-header-nav {
+    margin-left: auto;
+  }
+
+  .site-header-nav ul {
+    display: flex;
+    gap: var(--space-4);
+  }
+
+  .site-header-link {
+    position: relative;
+    display: inline-flex;
+    align-items: center;
+    min-height: 44px;
+    padding-left: var(--space-3);
+    font-size: var(--step--1);
+    font-weight: 600;
+    text-decoration: none;
+    white-space: nowrap;
+  }
+
+  .site-header-link:hover {
+    text-decoration: underline;
+  }
+
+  .site-header-link[aria-current="page"]::before {
+    content: "";
+    position: absolute;
+    left: 0;
+    top: 10px;
+    bottom: 14px;
+    width: 2px;
+    background: var(--color-accent);
+  }
+
+  .site-header-link[aria-current="page"]::after {
+    content: "";
+    position: absolute;
+    left: -3px;
+    bottom: 8px;
+    width: 8px;
+    height: 8px;
+    background: var(--color-accent);
+    border-radius: 50% 0 50% 50%;
+    transform: rotate(-45deg);
+  }
+
+  .site-header-actions {
+    display: flex;
+    align-items: center;
+    gap: var(--space-4);
+  }
+
+  .site-header-phone {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--space-2);
+    min-height: 44px;
+    font-weight: 600;
+    font-size: var(--step--1);
+    white-space: nowrap;
+    text-decoration: none;
+  }
+
+  .site-header-phone:hover {
+    text-decoration: underline;
+  }
+
+  .site-header-cta {
+    display: inline-flex;
+    align-items: center;
+    min-height: 44px;
+    padding: 0 var(--space-4);
+    background: var(--color-accent);
+    color: var(--color-on-accent);
+    font-weight: 600;
+    font-size: var(--step--1);
+    text-decoration: none;
+    white-space: nowrap;
+    border-radius: var(--radius-md);
+    transition: background-color var(--dur-fast) var(--ease-out);
+  }
+
+  .site-header-cta:hover {
+    background: var(--color-accent-hover);
+  }
+
+  .site-header-cta:active {
+    transform: translateY(1px);
+  }
+
+  @media (max-width: 63.99rem) {
+    .site-header-toggle {
+      display: none;
+    }
+
+    :global(.js) .site-header-toggle {
+      display: inline-flex;
+    }
+
+    .site-header-inner {
+      flex-wrap: wrap;
+    }
+
+    :global(html:not(.js)) .site-header-inner {
+      height: auto;
+      padding-block: var(--space-3);
+    }
+
+    :global(html:not(.js)) .site-header {
+      position: static;
+    }
+
+    .site-header-menu {
+      flex-direction: column;
+      align-items: stretch;
+      flex-basis: 100%;
+    }
+
+    .site-header-nav {
+      margin-left: 0;
+    }
+
+    .site-header-nav ul {
+      flex-direction: column;
+      gap: 0;
+    }
+
+    .site-header-link {
+      font-size: var(--step-1);
+      min-height: 48px;
+      width: 100%;
+      font-family: var(--font-display-stack);
+    }
+
+    .site-header-actions {
+      flex-direction: column;
+      align-items: stretch;
+      padding-top: var(--space-4);
+      border-top: 1px solid var(--color-line);
+    }
+
+    .site-header-phone {
+      font-size: var(--step-0);
+    }
+
+    .site-header-cta {
+      justify-content: center;
+      min-height: 48px;
+      font-size: var(--step-0);
+    }
+
+    :global(.js) .site-header-menu {
+      display: none;
+      position: fixed;
+      inset: var(--header-h) 0 0;
+      padding: var(--space-5) var(--gutter) var(--space-7);
+      gap: var(--space-5);
+      overflow-y: auto;
+      overscroll-behavior: contain;
+      background: var(--color-paper);
+    }
+
+    :global(.js) .site-header-menu.is-open {
+      display: flex;
+    }
+  }
+</style>
+
+<script>
+  const header = document.querySelector<HTMLElement>('[data-site-header]');
+  const toggle = document.querySelector<HTMLButtonElement>('[data-menu-toggle]');
+  const menu = document.querySelector<HTMLElement>('[data-menu]');
+  const sentinel = document.querySelector<HTMLElement>('[data-scroll-sentinel]');
+  const desktop = window.matchMedia('(min-width: 64rem)');
+
+  if (header && sentinel) {
+    new IntersectionObserver(([entry]) => {
+      header.classList.toggle('is-scrolled', !entry.isIntersecting);
+    }).observe(sentinel);
+  }
+
+  if (header && toggle && menu) {
+    const outside = () =>
+      Array.from(document.querySelectorAll<HTMLElement>('body > :not(.site-header):not(script)'));
+
+    const focusables = () => [
+      toggle,
+      ...menu.querySelectorAll<HTMLElement>('a[href], button:not([disabled])'),
+    ];
+
+    const setOpen = (open: boolean, returnFocus = true) => {
+      toggle.setAttribute('aria-expanded', String(open));
+      menu.classList.toggle('is-open', open);
+      document.documentElement.style.overflow = open ? 'hidden' : '';
+      for (const el of outside()) el.inert = open;
+      if (!open && returnFocus) toggle.focus();
+    };
+
+    toggle.addEventListener('click', () => {
+      setOpen(toggle.getAttribute('aria-expanded') !== 'true');
+    });
+
+    menu.addEventListener('click', (event) => {
+      if ((event.target as HTMLElement).closest('a')) setOpen(false, false);
+    });
+
+    document.addEventListener('keydown', (event) => {
+      if (toggle.getAttribute('aria-expanded') !== 'true') return;
+      if (event.key === 'Escape') {
+        event.preventDefault();
+        setOpen(false);
+        return;
+      }
+      if (event.key !== 'Tab') return;
+      const items = focusables();
+      const first = items[0];
+      const last = items[items.length - 1];
+      const active = document.activeElement as HTMLElement | null;
+      if (!active || !items.includes(active)) {
+        event.preventDefault();
+        first.focus();
+      } else if (event.shiftKey && active === first) {
+        event.preventDefault();
+        last.focus();
+      } else if (!event.shiftKey && active === last) {
+        event.preventDefault();
+        first.focus();
+      }
+    });
+
+    desktop.addEventListener('change', (event) => {
+      if (event.matches && toggle.getAttribute('aria-expanded') === 'true') setOpen(false, false);
+    });
+  }
+</script>

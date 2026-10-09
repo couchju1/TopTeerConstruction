@@ -1,0 +1,180 @@
+---
+import Fact from './Fact.astro';
+import { business, contact, estimatePath, location, mailHref, privacyPath, social, telHref } from '../lib/config';
+import { copy } from '../lib/copy';
+---
+<footer class="site-footer">
+  <section class="site-footer-cta" aria-labelledby="footer-cta-heading">
+    <div class="container site-footer-cta-inner">
+      <h2 id="footer-cta-heading"><Fact field="copy.footerCta.heading" /></h2>
+      <p><Fact field="copy.footerCta.body" /></p>
+      <div class="site-footer-cta-actions">
+        <a class="site-footer-cta-button" href={estimatePath}>{copy.footerCta.button}</a>
+        <a class="site-footer-cta-phone" href={telHref}><Fact field="contact.phoneDisplay" /></a>
+      </div>
+    </div>
+  </section>
+
+  <div class="site-footer-main container">
+    <div class="site-footer-brand">
+      <p class="site-footer-name">{business.name}</p>
+      <p><Fact field="business.tagline" /></p>
+    </div>
+
+    <div class="site-footer-col">
+      <h2 class="site-footer-heading">{copy.footer.contactHeading}</h2>
+      <address>
+        <a href={telHref}><Fact field="contact.phoneDisplay" /></a><br />
+        <a href={mailHref}>{contact.email}</a><br />
+        {location.city}, {location.region} {location.postalCode}
+      </address>
+    </div>
+
+    <div class="site-footer-col">
+      <h2 class="site-footer-heading">{copy.footer.hoursHeading}</h2>
+      <p><Fact field="contact.hours" /></p>
+    </div>
+
+    <div class="site-footer-col">
+      <h2 class="site-footer-heading">{copy.footer.areaHeading}</h2>
+      <ul role="list" class="site-footer-towns">
+        {location.serviceTowns.map((town) => <li>{town}</li>)}
+      </ul>
+    </div>
+  </div>
+
+  <div class="site-footer-legal container">
+    <p>&copy; {business.foundingYear} {business.name}</p>
+    <ul role="list">
+      <li><a href={social.facebook} rel="noopener">Facebook</a></li>
+      <li><a href={privacyPath}>{copy.footer.privacy}</a></li>
+    </ul>
+  </div>
+</footer>
+
+<style>
+  .site-footer {
+    background: var(--color-band-deep);
+    color: var(--color-on-band);
+  }
+
+  .site-footer a {
+    color: inherit;
+  }
+
+  .site-footer a:hover {
+    color: var(--color-accent-on-band);
+  }
+
+  .site-footer-cta {
+    background: var(--color-band);
+    padding-block: var(--space-8);
+  }
+
+  .site-footer-cta-inner {
+    display: grid;
+    justify-items: center;
+    gap: var(--space-4);
+    text-align: center;
+  }
+
+  .site-footer-cta-inner h2 {
+    text-align: center;
+    max-width: 22ch;
+  }
+
+  .site-footer-cta-inner p {
+    max-width: 52ch;
+  }
+
+  .site-footer-cta-actions {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: center;
+    gap: var(--space-4) var(--space-5);
+    margin-top: var(--space-3);
+  }
+
+  .site-footer-cta-button {
+    display: inline-flex;
+    align-items: center;
+    min-height: 48px;
+    padding: 0 var(--space-5);
+    background: var(--color-accent);
+    color: var(--color-on-accent) !important;
+    font-weight: 600;
+    text-decoration: none;
+    border-radius: var(--radius-md);
+  }
+
+  .site-footer-cta-button:hover {
+    background: var(--color-accent-hover);
+  }
+
+  .site-footer-cta-button:active {
+    transform: translateY(1px);
+  }
+
+  .site-footer-cta-phone {
+    display: inline-flex;
+    align-items: center;
+    min-height: 48px;
+    font-weight: 600;
+  }
+
+  .site-footer-main {
+    display: grid;
+    gap: var(--space-6);
+    padding-block: var(--space-7);
+    font-size: var(--step--1);
+  }
+
+  @media (min-width: 48rem) {
+    .site-footer-main {
+      grid-template-columns: 2fr 1.25fr 1fr 1fr;
+    }
+  }
+
+  .site-footer-name {
+    font-family: var(--font-display-stack);
+    font-weight: 600;
+    font-size: var(--step-1);
+    margin-bottom: var(--space-2);
+  }
+
+  .site-footer-heading {
+    font-family: var(--font-body-stack);
+    font-size: var(--step--1);
+    font-weight: 600;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    margin-bottom: var(--space-3);
+    color: var(--color-accent-on-band);
+  }
+
+  .site-footer address {
+    font-style: normal;
+  }
+
+  .site-footer address a,
+  .site-footer-legal a {
+    display: inline-block;
+    padding-block: var(--space-2);
+  }
+
+  .site-footer-legal {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    gap: var(--space-3);
+    padding-block: var(--space-4) var(--space-6);
+    border-top: 1px solid rgb(237 237 234 / 0.2);
+    font-size: var(--step--1);
+  }
+
+  .site-footer-legal ul {
+    display: flex;
+    gap: var(--space-5);
+  }
+</style>

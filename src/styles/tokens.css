@@ -1,14 +1,18 @@
 :root {
-  --color-ink: #1A1D1B;
-  --color-ink-muted: #4A524E;
-  --color-limestone: #EEEAE2;
+  --color-ink: #111111;
+  --color-ink-muted: #5C5C5C;
+  --color-paper: #F6F6F4;
   --color-white: #FFFFFF;
-  --color-spruce: #1E3A34;
-  --color-spruce-deep: #142824;
-  --color-brass: #D69E2E;
-  --color-brass-dark: #8A5A12;
-  --color-focus: #B7791F;
-  --color-line: #D6D0C4;
+  --color-band: #141414;
+  --color-band-deep: #0A0A0A;
+  --color-on-band: #EDEDEA;
+  --color-accent: #D0111F;
+  --color-accent-hover: #B00E1A;
+  --color-accent-dark: #A30D18;
+  --color-accent-on-band: #FF5A63;
+  --color-on-accent: #FFFFFF;
+  --color-focus: #D0111F;
+  --color-line: #DADAD6;
   --color-error: #A3261B;
   --color-success: #2F6B3A;
 
@@ -42,7 +46,7 @@
 
   --shadow-sm: 0 1px 2px rgb(26 29 27 / 0.08);
   --shadow-md: 0 6px 18px rgb(26 29 27 / 0.12);
-  --shadow-focus: 0 0 0 3px var(--color-focus);
+  --shadow-focus: 0 0 0 2px var(--color-white), 0 0 0 5px var(--color-focus);
 
   --bp-sm: 36rem;
   --bp-md: 48rem;

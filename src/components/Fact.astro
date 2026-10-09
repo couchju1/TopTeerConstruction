@@ -1,0 +1,11 @@
+---
+import { fact } from '../lib/config';
+
+interface Props {
+  field: string;
+}
+
+const { field } = Astro.props;
+const { value, placeholder } = fact(field);
+---
+{placeholder ? <span class="fact-placeholder" data-field={field} title={field}>{value}</span> : value}

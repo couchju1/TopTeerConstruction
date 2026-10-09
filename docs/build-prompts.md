@@ -2,6 +2,23 @@
 
 Run these in order. One prompt per Claude Code session (or Antigravity where labeled). Read the diff, run the checks, commit, then move to the next one.
 
+## Brand colors (from Chad's logo)
+
+The palette follows the logo: black, red, grey, white. Token names in
+`src/styles/tokens.css` changed with it. When a prompt below says:
+
+| Prompt says | Use token | Value |
+|---|---|---|
+| limestone (page background) | `--color-paper` | #F6F6F4 |
+| spruce (dark band) | `--color-band` | #141414 |
+| spruce-deep | `--color-band-deep` | #0A0A0A |
+| limestone text on spruce | `--color-on-band` | #EDEDEA |
+| brass (buttons, plumb line, accents) | `--color-accent` | #D0111F |
+| brass-dark (small labels on light) | `--color-accent-dark` | #A30D18 |
+| brass text on a dark band | `--color-accent-on-band` | #FF5A63 |
+
+Primary buttons are red with **white** text (`--color-on-accent`), not ink: ink on red fails contrast.
+
 ## Before prompt 1
 
 1. Make a new folder `topteer-site`, run `git init`.
