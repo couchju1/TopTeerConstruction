@@ -1,0 +1,96 @@
+---
+import Base from '../../layouts/Base.astro';
+import EstimateForm from '../../components/EstimateForm.astro';
+import Fact from '../../components/Fact.astro';
+import { telHref } from '../../lib/config';
+import { estimateCopy as copy } from '../../lib/page-copy';
+---
+<Base title={copy.title} description={copy.description} cta={false}>
+  <section class="estimate container" aria-labelledby="estimate-heading">
+    <div class="estimate-main">
+      <h1 id="estimate-heading">{copy.h1}</h1>
+      <p class="estimate-intro"><Fact text={copy.intro} name="Estimate intro" /></p>
+      <EstimateForm serverErrorText={copy.serverError} invalidText={copy.invalid} />
+    </div>
+    <aside class="estimate-side" aria-labelledby="estimate-next">
+      <h2 id="estimate-next"><Fact text={copy.sideHeading} name="Side heading" /></h2>
+      <ol class="estimate-steps" role="list">
+        {copy.sideSteps.map((step, i) => <li><Fact text={step} name={`Side step ${i + 1}`} /></li>)}
+      </ol>
+      <p class="estimate-call">
+        <Fact text={copy.sideCall} name="Side call" /><br />
+        <a href={telHref}><Fact field="contact.phoneDisplay" /></a>
+      </p>
+    </aside>
+  </section>
+</Base>
+
+<style>
+  .estimate {
+    display: grid;
+    gap: var(--space-7);
+    padding-block: var(--space-7) var(--space-8);
+  }
+
+  @media (min-width: 64rem) {
+    .estimate {
+      grid-template-columns: 7fr 5fr;
+      gap: var(--space-8);
+      align-items: start;
+    }
+  }
+
+  .estimate-intro {
+    max-width: 52ch;
+    margin: var(--space-4) 0 var(--space-6);
+    font-size: var(--step-1);
+    line-height: 1.5;
+    color: var(--color-ink-muted);
+  }
+
+  .estimate-side {
+    padding: var(--space-6);
+    background: var(--color-white);
+    border-top: 4px solid var(--color-accent);
+  }
+
+  @media (min-width: 64rem) {
+    .estimate-side {
+      position: sticky;
+      top: calc(var(--header-h) + var(--space-5));
+    }
+  }
+
+  .estimate-side h2 {
+    font-size: var(--step-2);
+  }
+
+  .estimate-steps {
+    counter-reset: next;
+    margin-block: var(--space-5);
+  }
+
+  .estimate-steps li {
+    counter-increment: next;
+    display: grid;
+    grid-template-columns: 2.25rem 1fr;
+    padding-block: var(--space-3);
+    border-top: 1px solid var(--color-line);
+  }
+
+  .estimate-steps li::before {
+    content: counter(next);
+    font-family: var(--font-display-stack);
+    font-weight: 600;
+    color: var(--color-accent-dark);
+  }
+
+  .estimate-call a {
+    display: inline-flex;
+    align-items: center;
+    min-height: 44px;
+    font-family: var(--font-display-stack);
+    font-size: var(--step-2);
+    font-weight: 600;
+  }
+</style>

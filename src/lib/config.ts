@@ -43,6 +43,10 @@ export function assertLaunchReady(field: string, value: unknown): void {
   }
 }
 
+export function shownInBuild(value: unknown): boolean {
+  return !(launchCheck && isPlaceholder(value));
+}
+
 function resolve(field: string): unknown {
   return field.split('.').reduce<unknown>((node, key) => {
     if (node && typeof node === 'object' && key in node) return (node as Record<string, unknown>)[key];

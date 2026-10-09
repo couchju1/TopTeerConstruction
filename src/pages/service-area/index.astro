@@ -1,0 +1,81 @@
+---
+import Base from '../../layouts/Base.astro';
+import Fact from '../../components/Fact.astro';
+import Section from '../../components/Section.astro';
+import ServiceAreaMap from '../../components/ServiceAreaMap.astro';
+import { location, shownInBuild } from '../../lib/config';
+import { serviceAreaCopy as copy } from '../../lib/page-copy';
+import { townCoordinates } from '../../lib/towns';
+
+const base = townCoordinates[location.city];
+const milesFromBase = (town: string) => {
+  const t = townCoordinates[town];
+  if (!t || !base) return null;
+  const toRad = (d: number) => (d * Math.PI) / 180;
+  const dLat = toRad(t.lat - base.lat);
+  const dLng = toRad(t.lng - base.lng);
+  const a = Math.sin(dLat / 2) ** 2 + Math.cos(toRad(base.lat)) * Math.cos(toRad(t.lat)) * Math.sin(dLng / 2) ** 2;
+  return Math.round(3959 * 2 * Math.asin(Math.sqrt(a)));
+};
+
+const towns = location.serviceTowns
+  .map((town) => {
+    const miles = milesFromBase(town);
+    const where = town === location.city ? `This is home base.` : miles !== null ? `About ${miles} miles from ${location.city}.` : '';
+    return { town, text: `${copy.townLead} ${where} The plan's paragraph about working in ${town} goes here.` };
+  })
+  .filter((t) => shownInBuild(t.text));
+---
+<Base title={copy.title} description={copy.description}>
+  <Section aria-labelledby="area-heading">
+    <h1 id="area-heading"><Fact text={copy.h1} name="Service area heading" /></h1>
+    <p class="area-intro"><Fact text={copy.intro} name="Service area intro" /></p>
+    <ServiceAreaMap size="large" />
+  </Section>
+
+  {
+    towns.length > 0 && (
+      <Section tone="white" aria-label="Towns">
+        <ul class="area-towns" role="list">
+          {towns.map((t, i) => (
+            <li>
+              <h2 id={`town-${i}`}>{t.town}</h2>
+              <p><Fact text={t.text} name={`${t.town} paragraph`} /></p>
+            </li>
+          ))}
+        </ul>
+      </Section>
+    )
+  }
+</Base>
+
+<style>
+  .area-intro {
+    max-width: 52ch;
+    margin: var(--space-4) 0 var(--space-6);
+    font-size: var(--step-1);
+    line-height: 1.5;
+  }
+
+  .area-towns {
+    display: grid;
+    gap: 0 var(--space-7);
+  }
+
+  @media (min-width: 48rem) {
+    .area-towns {
+      grid-template-columns: 1fr 1fr;
+    }
+  }
+
+  .area-towns li {
+    display: grid;
+    gap: var(--space-2);
+    padding-block: var(--space-5);
+    border-top: 1px solid var(--color-line);
+  }
+
+  .area-towns h2 {
+    font-size: var(--step-2);
+  }
+</style>

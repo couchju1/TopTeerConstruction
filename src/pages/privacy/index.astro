@@ -1,0 +1,50 @@
+---
+import Base from '../../layouts/Base.astro';
+import Fact from '../../components/Fact.astro';
+import { launchCheck } from '../../lib/config';
+import { privacyCopy as copy } from '../../lib/page-copy';
+---
+<Base title={copy.title} description={copy.description} cta={false}>
+  <article class="privacy container" aria-labelledby="privacy-heading">
+    {!launchCheck && <p class="privacy-banner fact-placeholder">{copy.banner}</p>}
+    <h1 id="privacy-heading">{copy.h1}</h1>
+    {
+      copy.sections.map((section, i) => (
+        <section aria-labelledby={`privacy-${i}`}>
+          <h2 id={`privacy-${i}`}>{section.heading}</h2>
+          <p><Fact text={section.body} name={`Privacy: ${section.heading}`} /></p>
+        </section>
+      ))
+    }
+  </article>
+</Base>
+
+<style>
+  .privacy {
+    display: grid;
+    gap: var(--space-5);
+    max-width: 48rem;
+    margin-inline: 0;
+    padding-block: var(--space-7) var(--space-8);
+  }
+
+  @media (min-width: 76rem) {
+    .privacy {
+      margin-inline: calc((100vw - var(--max-width)) / 2);
+    }
+  }
+
+  .privacy-banner {
+    padding: var(--space-3) var(--space-4);
+    font-weight: 600;
+  }
+
+  .privacy h2 {
+    font-size: var(--step-2);
+    margin-bottom: var(--space-2);
+  }
+
+  .privacy p {
+    max-width: 62ch;
+  }
+</style>

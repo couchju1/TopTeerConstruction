@@ -1,0 +1,37 @@
+---
+import Base from '../../layouts/Base.astro';
+import Button from '../../components/Button.astro';
+import Fact from '../../components/Fact.astro';
+import { telHref } from '../../lib/config';
+import { thanksCopy as copy } from '../../lib/page-copy';
+---
+<Base title={copy.title} description={copy.description} cta={false} noindex>
+  <section class="thanks container" aria-labelledby="thanks-heading">
+    <h1 id="thanks-heading"><Fact text={copy.h1} name="Thanks heading" /></h1>
+    <p><Fact text={copy.body} name="Thanks body" /></p>
+    <div class="thanks-actions">
+      <Button href={telHref}><Fact field="contact.phoneDisplay" /></Button>
+      <Button variant="secondary" href="/">{copy.home}</Button>
+    </div>
+  </section>
+</Base>
+
+<style>
+  .thanks {
+    display: grid;
+    gap: var(--space-5);
+    padding-block: var(--space-9);
+  }
+
+  .thanks p {
+    max-width: 48ch;
+    font-size: var(--step-1);
+    line-height: 1.5;
+  }
+
+  .thanks-actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-3);
+  }
+</style>

@@ -13,9 +13,10 @@ interface Props {
   title?: string;
   description?: string;
   cta?: CtaProps | false;
+  noindex?: boolean;
 }
 
-const { title = business.name, description = business.tagline, cta = {} } = Astro.props;
+const { title = business.name, description = business.tagline, cta = {}, noindex = false } = Astro.props;
 assertLaunchReady(`<title> on ${Astro.url.pathname}`, title);
 assertLaunchReady(`meta description on ${Astro.url.pathname}`, description);
 ---
@@ -26,6 +27,7 @@ assertLaunchReady(`meta description on ${Astro.url.pathname}`, description);
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>{title}</title>
     <meta name="description" content={description} />
+    {noindex && <meta name="robots" content="noindex" />}
     <meta name="theme-color" content="#F6F6F4" />
     <link rel="preload" href="/fonts/zilla-slab-latin-600-normal.woff2" as="font" type="font/woff2" crossorigin />
     <link rel="preload" href="/fonts/public-sans-latin-400-normal.woff2" as="font" type="font/woff2" crossorigin />
