@@ -1,0 +1,31 @@
+---
+import Fact from './Fact.astro';
+import Gallery from './Gallery.astro';
+import Section from './Section.astro';
+import { getProjects, toGalleryPhotos } from '../lib/projects';
+
+interface Props {
+  service: string;
+  heading: string;
+}
+
+const { service, heading } = Astro.props;
+const photos = toGalleryPhotos(await getProjects(service));
+const headingId = `gallery-${service}-heading`;
+---
+{
+  photos.length > 0 && (
+    <Section tone="white" aria-labelledby={headingId}>
+      <h2 id={headingId} class="service-gallery-heading">
+        <Fact text={heading} name="Gallery heading" />
+      </h2>
+      <Gallery photos={photos} label={heading} />
+    </Section>
+  )
+}
+
+<style>
+  .service-gallery-heading {
+    margin-bottom: var(--space-6);
+  }
+</style>

@@ -1,0 +1,46 @@
+---
+import Base from '../../layouts/Base.astro';
+import Fact from '../../components/Fact.astro';
+import Gallery from '../../components/Gallery.astro';
+import Section from '../../components/Section.astro';
+import { business, location } from '../../lib/config';
+import { getProjects, toGalleryPhotos } from '../../lib/projects';
+
+const copy = {
+  title: `[CONFIRM: plan Our Work] Our Work: Remodeling, Decks and Additions Around Sioux Falls | ${business.name}`,
+  description: `[CONFIRM: plan Our Work] Photos of kitchens, bathrooms, basements, decks and additions built by ${business.owner} in ${location.city}, Sioux Falls and nearby towns.`,
+  heading: 'Our work',
+  intro: `[CONFIRM: plan Our Work] Real jobs, photographed on site. Every caption says what was done and which town it was in.`,
+  empty: '[CONFIRM: plan Our Work] No photos for this kind of job yet. Call and ask, I can tell you about ones I have done.',
+  none: '[CONFIRM: plan Our Work] Photos are on the way. Check back soon, or call and I will walk you through recent jobs.',
+};
+
+const photos = toGalleryPhotos(await getProjects());
+---
+<Base title={copy.title} description={copy.description}>
+  <Section aria-labelledby="our-work-heading">
+    <h1 id="our-work-heading">{copy.heading}</h1>
+    <p class="our-work-intro"><Fact text={copy.intro} name="Our Work intro" /></p>
+    {
+      photos.length > 0 ? (
+        <Gallery photos={photos} filters emptyMessage={copy.empty} label="Project photos" />
+      ) : (
+        <p class="our-work-none"><Fact text={copy.none} name="Our Work no photos" /></p>
+      )
+    }
+  </Section>
+</Base>
+
+<style>
+  .our-work-intro {
+    max-width: 56ch;
+    margin: var(--space-4) 0 var(--space-7);
+    font-size: var(--step-1);
+    line-height: 1.5;
+    color: var(--color-ink-muted);
+  }
+
+  .our-work-none {
+    max-width: 56ch;
+  }
+</style>
