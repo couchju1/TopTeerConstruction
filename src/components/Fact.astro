@@ -1,11 +1,21 @@
 ---
-import { fact } from '../lib/config';
+import { assertLaunchReady, fact, isPlaceholder } from '../lib/config';
 
-interface Props {
-  field: string;
+type Props = { field: string } | { text: string; name: string };
+
+const props = Astro.props;
+let label: string;
+let value: string;
+let placeholder: boolean;
+
+if ('field' in props) {
+  label = props.field;
+  ({ value, placeholder } = fact(props.field));
+} else {
+  label = `${props.name} on ${Astro.url.pathname}`;
+  assertLaunchReady(label, props.text);
+  value = props.text;
+  placeholder = isPlaceholder(props.text);
 }
-
-const { field } = Astro.props;
-const { value, placeholder } = fact(field);
 ---
-{placeholder ? <span class="fact-placeholder" data-field={field} title={field}>{value}</span> : value}
+{placeholder ? <span class="fact-placeholder" data-field={label} title={label}>{value}</span> : value}

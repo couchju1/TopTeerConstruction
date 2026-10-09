@@ -6,7 +6,7 @@ import Header from '../components/Header.astro';
 import Footer from '../components/Footer.astro';
 import MobileBar from '../components/MobileBar.astro';
 import CtaBand, { type Props as CtaProps } from '../components/CtaBand.astro';
-import { business } from '../lib/config';
+import { assertLaunchReady, business } from '../lib/config';
 import { copy } from '../lib/copy';
 
 interface Props {
@@ -16,6 +16,8 @@ interface Props {
 }
 
 const { title = business.name, description = business.tagline, cta = {} } = Astro.props;
+assertLaunchReady(`<title> on ${Astro.url.pathname}`, title);
+assertLaunchReady(`meta description on ${Astro.url.pathname}`, description);
 ---
 <!doctype html>
 <html lang="en">

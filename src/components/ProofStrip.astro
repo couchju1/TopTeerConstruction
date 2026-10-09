@@ -1,4 +1,6 @@
 ---
+import Fact from './Fact.astro';
+
 interface Props {
   items: [string, string, string];
 }
@@ -6,7 +8,7 @@ interface Props {
 const { items } = Astro.props;
 ---
 <ul class="proof-strip" role="list">
-  {items.map((item) => <li class="proof-strip-item">{item}</li>)}
+  {items.map((item, i) => <li class="proof-strip-item"><Fact text={item} name={`ProofStrip item ${i + 1}`} /></li>)}
 </ul>
 
 <style>

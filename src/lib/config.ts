@@ -62,6 +62,7 @@ export const contact = siteConfig.contact;
 export const location = siteConfig.location;
 export const site = siteConfig.site;
 export const social = siteConfig.social;
+export const credentials = siteConfig.credentials;
 export const services = siteConfig.services;
 export const reviews = {
   minimumToShow: siteConfig.reviews.minimumToShow,

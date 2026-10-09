@@ -14,8 +14,8 @@ const { heading, body, label = copy.footerCta.button } = Astro.props;
 ---
 <section class="cta-band" aria-labelledby="cta-band-heading">
   <div class="cta-band-inner container">
-    <h2 id="cta-band-heading">{heading ?? <Fact field="copy.footerCta.heading" />}</h2>
-    <p>{body ?? <Fact field="copy.footerCta.body" />}</p>
+    <h2 id="cta-band-heading">{heading ? <Fact text={heading} name="CtaBand heading" /> : <Fact field="copy.footerCta.heading" />}</h2>
+    <p>{body ? <Fact text={body} name="CtaBand body" /> : <Fact field="copy.footerCta.body" />}</p>
     <div class="cta-band-actions">
       <Button href={estimatePath}>{label}</Button>
       <a class="cta-band-phone" href={telHref}><Fact field="contact.phoneDisplay" /></a>

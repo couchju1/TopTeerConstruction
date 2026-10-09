@@ -1,4 +1,6 @@
 ---
+import Fact from './Fact.astro';
+
 interface Step {
   title: string;
   body: string;
@@ -22,9 +24,9 @@ const { steps, layout = 'track' } = Astro.props;
           </span>
           <h3 class="process-steps-title">
             <span class="visually-hidden">Step {index + 1}: </span>
-            {step.title}
+            <Fact text={step.title} name={`Step ${index + 1} title`} />
           </h3>
-          <p class="process-steps-body">{step.body}</p>
+          <p class="process-steps-body"><Fact text={step.body} name={`Step ${index + 1} body`} /></p>
         </li>
       ))
     }

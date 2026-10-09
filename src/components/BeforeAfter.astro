@@ -1,5 +1,6 @@
 ---
 import type { ImageMetadata } from 'astro';
+import Fact from './Fact.astro';
 import Picture from './Picture.astro';
 
 interface Props {
@@ -34,7 +35,7 @@ const { before, after, beforeAlt, afterAlt, caption } = Astro.props;
       data-before-after-range
     />
   </div>
-  {caption && <figcaption class="before-after-caption">{caption}</figcaption>}
+  {caption && <figcaption class="before-after-caption"><Fact text={caption} name="BeforeAfter caption" /></figcaption>}
 </figure>
 
 <style>

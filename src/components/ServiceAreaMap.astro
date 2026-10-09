@@ -1,0 +1,119 @@
+---
+import { location } from '../lib/config';
+import { townCoordinates } from '../lib/towns';
+
+interface Props {
+  size?: 'compact' | 'large';
+}
+
+const { size = 'compact' } = Astro.props;
+
+const hub = townCoordinates['Sioux Falls'];
+const towns = location.serviceTowns
+  .map((name) => ({ name, ...townCoordinates[name] }))
+  .filter((t) => t.lat !== undefined);
+
+const pxPerDegree = 1100;
+const lngScale = Math.cos((hub.lat * Math.PI) / 180);
+const width = 640;
+const height = 480;
+const project = (lat: number, lng: number) => ({
+  x: width / 2 + (lng - hub.lng) * lngScale * pxPerDegree + 40,
+  y: height / 2 - (lat - hub.lat) * pxPerDegree - 60,
+});
+
+const milesToPx = (miles: number) => (miles / 69) * pxPerDegree;
+const center = project(hub.lat, hub.lng);
+
+const labelPlacement: Record<string, { dx: number; dy: number; anchor: 'start' | 'middle' | 'end' }> = {
+  'Sioux Falls': { dx: 0, dy: -22, anchor: 'middle' },
+  Tea: { dx: -14, dy: 6, anchor: 'end' },
+  Chancellor: { dx: 0, dy: 30, anchor: 'middle' },
+  Parker: { dx: 0, dy: -18, anchor: 'middle' },
+  Canton: { dx: 0, dy: 30, anchor: 'middle' },
+};
+
+const points = towns.map((t) => {
+  const { x, y } = project(t.lat, t.lng);
+  const place = labelPlacement[t.name] ?? { dx: 14, dy: 6, anchor: 'start' as const };
+  return { ...t, x, y, place, hub: t.name === 'Sioux Falls', base: t.name === location.city };
+});
+
+const titleId = `area-map-title-${size}`;
+---
+<svg
+  class:list={['area-map', `area-map-${size}`]}
+  viewBox={`0 0 ${width} ${height}`}
+  role="img"
+  aria-labelledby={titleId}
+>
+  <title id={titleId}>Map of the towns I work in: {location.serviceTowns.join(', ')}</title>
+  {
+    [10].map((miles) => (
+      <g class="area-map-ring">
+        <circle cx={center.x} cy={center.y} r={milesToPx(miles)} />
+        <text x={center.x + milesToPx(miles) * 0.707 + 6} y={center.y - milesToPx(miles) * 0.707 - 6}>
+          {miles} mi
+        </text>
+      </g>
+    ))
+  }
+  {
+    points.map((p) => (
+      <g class:list={['area-map-town', p.hub && 'area-map-hub', p.base && 'area-map-base']}>
+        <circle cx={p.x} cy={p.y} r={p.hub ? 10 : p.base ? 9 : 6} />
+        <text x={p.x + p.place.dx} y={p.y + p.place.dy} text-anchor={p.place.anchor}>
+          {p.name}
+        </text>
+      </g>
+    ))
+  }
+</svg>
+
+<style>
+  .area-map {
+    width: 100%;
+    height: auto;
+    max-width: 40rem;
+    font-family: var(--font-body-stack);
+  }
+
+  .area-map-large {
+    max-width: 56rem;
+  }
+
+  .area-map-ring circle {
+    fill: none;
+    stroke: var(--color-line);
+    stroke-width: 1.5;
+    stroke-dasharray: 4 6;
+  }
+
+  .area-map-ring text {
+    fill: var(--color-ink-muted);
+    font-size: 16px;
+  }
+
+  .area-map-town circle {
+    fill: var(--color-ink);
+  }
+
+  .area-map-town text {
+    fill: var(--color-ink);
+    font-size: 22px;
+    font-weight: 600;
+    paint-order: stroke;
+    stroke: var(--color-paper);
+    stroke-width: 5px;
+    stroke-linejoin: round;
+  }
+
+  .area-map-hub text {
+    font-family: var(--font-display-stack);
+    font-size: 28px;
+  }
+
+  .area-map-base circle {
+    fill: var(--color-accent);
+  }
+</style>
