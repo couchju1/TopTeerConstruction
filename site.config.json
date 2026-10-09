@@ -1,0 +1,121 @@
+{
+  "business": {
+    "name": "Top Teer Construction",
+    "shortName": "Top Teer",
+    "owner": "Chad",
+    "ownerLastName": "[CONFIRM]",
+    "foundingYear": 2026,
+    "yearsInTrades": "[CONFIRM: 10]",
+    "tagline": "Remodeling around Sioux Falls, built by the guy who bid it.",
+    "schemaType": "GeneralContractor"
+  },
+  "contact": {
+    "phoneDisplay": "(605) 290-2881",
+    "phoneE164": "+16052902881",
+    "phoneConfirmed": false,
+    "acceptsTexts": "[CONFIRM]",
+    "email": "chad@topteerconstruction.com",
+    "formRecipient": "chad@topteerconstruction.com",
+    "callbackPromise": "[CONFIRM: same day | next business day]",
+    "hours": "[CONFIRM]"
+  },
+  "location": {
+    "serviceAreaBusiness": true,
+    "streetAddress": "",
+    "city": "Tea",
+    "region": "SD",
+    "postalCode": "57064",
+    "country": "US",
+    "geo": { "lat": "[CONFIRM]", "lng": "[CONFIRM]" },
+    "radiusMiles": 30,
+    "serviceTowns": [
+      "Sioux Falls",
+      "Tea",
+      "Harrisburg",
+      "Hartford",
+      "Brandon",
+      "Canton",
+      "Lennox",
+      "Parker",
+      "Chancellor"
+    ]
+  },
+  "site": {
+    "domain": "topteerconstruction.com",
+    "url": "https://www.topteerconstruction.com",
+    "defaultOgImage": "/og/og-default.jpg",
+    "locale": "en_US"
+  },
+  "social": {
+    "facebook": "https://www.facebook.com/profile.php?id=61594682278907",
+    "googleBusinessProfile": "[CONFIRM: create GBP]"
+  },
+  "credentials": {
+    "insured": "[NEEDS CLIENT PROOF]",
+    "insuranceCarrier": "[NEEDS CLIENT PROOF]",
+    "siouxFallsContractorLicense": "[NEEDS CLIENT PROOF]",
+    "warranty": "[NEEDS CLIENT PROOF]"
+  },
+  "services": [
+    {
+      "slug": "remodeling",
+      "name": "Remodeling",
+      "short": "Kitchens, bathrooms, basements, flooring and trim.",
+      "includes": ["Kitchens", "Bathrooms", "Basements", "Flooring & trim"],
+      "isPrimary": true
+    },
+    {
+      "slug": "additions",
+      "name": "Additions",
+      "short": "More room without moving out of the neighborhood.",
+      "includes": ["Room additions", "Bump-outs", "Main-floor suites"],
+      "isPrimary": false
+    },
+    {
+      "slug": "decks",
+      "name": "Decks",
+      "short": "New builds, replacements and stairs that don't wobble.",
+      "includes": ["New decks", "Deck replacement", "Stairs and railings"],
+      "isPrimary": false
+    },
+    {
+      "slug": "siding",
+      "name": "Siding & trim",
+      "short": "Siding, soffit, fascia and the trim that finishes it.",
+      "includes": ["Siding", "Soffit", "Fascia", "Exterior trim"],
+      "isPrimary": false
+    },
+    {
+      "slug": "new-construction",
+      "name": "New construction",
+      "short": "Homes, garages and shops from the slab up.",
+      "includes": ["[CONFIRM]"],
+      "isPrimary": false
+    }
+  ],
+  "reviews": {
+    "minimumToShow": 3,
+    "items": []
+  },
+  "analytics": {
+    "provider": "[CONFIRM: ga4 | plausible]",
+    "id": ""
+  },
+  "form": {
+    "endpoint": "/contact.php",
+    "maxFiles": 3,
+    "maxFileMB": 10,
+    "honeypotField": "company",
+    "projectTypes": [
+      "Kitchen",
+      "Bathroom",
+      "Basement",
+      "Flooring or trim",
+      "Addition",
+      "Deck",
+      "Siding",
+      "New construction",
+      "Something else"
+    ]
+  }
+}
