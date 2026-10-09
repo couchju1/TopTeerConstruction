@@ -1,0 +1,49 @@
+---
+import Service from '../../layouts/Service.astro';
+import Fact from '../../components/Fact.astro';
+import Section from '../../components/Section.astro';
+import ServiceGallery from '../../components/ServiceGallery.astro';
+import { newConstructionCopy as copy } from '../../lib/service-copy';
+import hero from '../../assets/photos/placeholder-hero.jpg';
+---
+<Service slug="new-construction" hero="wide" photo={hero} {...copy}>
+  <Section tone="white" aria-labelledby="how-i-work">
+    <h2 id="how-i-work" class="newbuild-heading">{copy.howHeading}</h2>
+    <ul class="newbuild-how" role="list">
+      {
+        copy.how.map((item, i) => (
+          <li>
+            <h3><Fact text={item.title} name={`How ${i + 1} title`} /></h3>
+            <p><Fact text={item.body} name={`How ${i + 1} body`} /></p>
+          </li>
+        ))
+      }
+    </ul>
+  </Section>
+
+  <ServiceGallery service="new-construction" heading={copy.galleryHeading} />
+</Service>
+
+<style>
+  .newbuild-heading {
+    margin-bottom: var(--space-6);
+  }
+
+  .newbuild-how li {
+    display: grid;
+    gap: var(--space-2);
+    padding: var(--space-5) 0;
+    border-top: 1px solid var(--color-line);
+  }
+
+  @media (min-width: 48rem) {
+    .newbuild-how li {
+      grid-template-columns: 5fr 7fr;
+      gap: var(--space-7);
+    }
+  }
+
+  .newbuild-how p {
+    max-width: 52ch;
+  }
+</style>

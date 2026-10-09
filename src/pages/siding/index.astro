@@ -1,0 +1,97 @@
+---
+import Service from '../../layouts/Service.astro';
+import Fact from '../../components/Fact.astro';
+import FaqSection from '../../components/FaqSection.astro';
+import Picture from '../../components/Picture.astro';
+import Section from '../../components/Section.astro';
+import ServiceGallery from '../../components/ServiceGallery.astro';
+import { sidingCopy as copy } from '../../lib/service-copy';
+import hero from '../../assets/photos/placeholder-hero.jpg';
+import square from '../../assets/photos/placeholder-square.jpg';
+---
+<Service slug="siding" hero="wide" photo={hero} {...copy}>
+  <Section tone="white" aria-labelledby="siding-details">
+    <h2 id="siding-details" class="siding-heading"><Fact text={copy.detailsHeading} name="Details heading" /></h2>
+    <ul class="siding-strip" role="list">
+      {
+        copy.details.map((detail, i) => (
+          <li>
+            <figure>
+              <div class="siding-strip-photo">
+                <Picture src={square} alt={detail.alt} sizes="(min-width: 48rem) 33vw, 100vw" />
+              </div>
+              <figcaption><Fact text={detail.label} name={`Detail ${i + 1} label`} /></figcaption>
+            </figure>
+          </li>
+        ))
+      }
+    </ul>
+  </Section>
+
+  <Section grid="8-4" aria-labelledby="siding-included" class="siding-included-section">
+    <div>
+      <h2 id="siding-included" class="siding-heading"><Fact text={copy.includedHeading} name="Included heading" /></h2>
+      <ol class="siding-included" role="list">
+        {copy.included.map((item, i) => <li><Fact text={item} name={`Included ${i + 1}`} /></li>)}
+      </ol>
+    </div>
+  </Section>
+
+  <FaqSection heading={copy.faqHeading} items={copy.faqs} tone="white" />
+  <ServiceGallery service="siding" heading={copy.galleryHeading} />
+</Service>
+
+<style>
+  .siding-heading {
+    margin-bottom: var(--space-6);
+  }
+
+  .siding-strip {
+    display: grid;
+    gap: var(--space-4);
+  }
+
+  @media (min-width: 48rem) {
+    .siding-strip {
+      grid-template-columns: 1fr 1fr 1fr;
+      gap: var(--space-2);
+    }
+  }
+
+  .siding-strip-photo {
+    aspect-ratio: 1;
+    overflow: hidden;
+  }
+
+  .siding-strip-photo :global(img) {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
+  .siding-strip figcaption {
+    margin-top: var(--space-2);
+    font-size: var(--step--1);
+    font-weight: 600;
+  }
+
+  .siding-included {
+    counter-reset: included;
+  }
+
+  .siding-included li {
+    counter-increment: included;
+    display: grid;
+    grid-template-columns: 3rem 1fr;
+    padding: var(--space-4) 0;
+    border-top: 1px solid var(--color-line);
+    font-size: var(--step-1);
+  }
+
+  .siding-included li::before {
+    content: counter(included, decimal-leading-zero);
+    font-family: var(--font-display-stack);
+    font-weight: 600;
+    color: var(--color-accent-dark);
+  }
+</style>

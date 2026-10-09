@@ -1,0 +1,113 @@
+---
+import Service from '../../layouts/Service.astro';
+import Fact from '../../components/Fact.astro';
+import FaqSection from '../../components/FaqSection.astro';
+import Section from '../../components/Section.astro';
+import ServiceGallery from '../../components/ServiceGallery.astro';
+import { decksCopy as copy } from '../../lib/service-copy';
+import hero from '../../assets/photos/placeholder-hero.jpg';
+---
+<Service slug="decks" hero="split" photo={hero} {...copy}>
+  <ServiceGallery service="decks" heading={copy.galleryHeading} />
+
+  <Section tone="white" aria-labelledby="wood-or-composite">
+    <h2 id="wood-or-composite" class="decks-heading"><Fact text={copy.tableHeading} name="Table heading" /></h2>
+    <div class="decks-table-wrap" role="region" aria-labelledby="decks-table-caption" tabindex="0">
+      <table class="decks-table">
+        <caption id="decks-table-caption"><Fact text={copy.tableCaption} name="Table caption" /></caption>
+        <thead>
+          <tr>
+            <td></td>
+            <th scope="col">Pressure-treated wood</th>
+            <th scope="col">Composite</th>
+          </tr>
+        </thead>
+        <tbody>
+          {
+            copy.tableRows.map((row) => (
+              <tr>
+                <th scope="row">{row.label}</th>
+                <td><Fact text={row.wood} name={`${row.label}, wood`} /></td>
+                <td><Fact text={row.composite} name={`${row.label}, composite`} /></td>
+              </tr>
+            ))
+          }
+        </tbody>
+      </table>
+    </div>
+  </Section>
+
+  <Section grid="5-7" aria-labelledby="deck-included">
+    <h2 id="deck-included"><Fact text={copy.includedHeading} name="Included heading" /></h2>
+    <ul class="decks-included" role="list">
+      {copy.included.map((item, i) => <li><Fact text={item} name={`Included ${i + 1}`} /></li>)}
+    </ul>
+  </Section>
+
+  <FaqSection heading={copy.faqHeading} items={copy.faqs} tone="white" />
+</Service>
+
+<style>
+  .decks-heading {
+    margin-bottom: var(--space-6);
+  }
+
+  .decks-table-wrap {
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+  }
+
+  .decks-table-wrap:focus-visible {
+    box-shadow: var(--shadow-focus);
+  }
+
+  .decks-table {
+    width: 100%;
+    min-width: 36rem;
+    border-collapse: collapse;
+    text-align: left;
+  }
+
+  .decks-table caption {
+    caption-side: top;
+    padding-bottom: var(--space-4);
+    text-align: left;
+    color: var(--color-ink-muted);
+    font-size: var(--step--1);
+  }
+
+  .decks-table th,
+  .decks-table td {
+    padding: var(--space-4) var(--space-4) var(--space-4) 0;
+    border-bottom: 1px solid var(--color-line);
+    vertical-align: top;
+  }
+
+  .decks-table thead th {
+    font-family: var(--font-display-stack);
+    font-size: var(--step-1);
+    border-bottom: 2px solid var(--color-ink);
+  }
+
+  .decks-table tbody th {
+    width: 28%;
+    font-weight: 600;
+  }
+
+  .decks-included li {
+    position: relative;
+    padding: var(--space-3) 0 var(--space-3) var(--space-6);
+    border-bottom: 1px solid var(--color-line);
+    font-size: var(--step-1);
+  }
+
+  .decks-included li::before {
+    content: "";
+    position: absolute;
+    left: 0;
+    top: 1.15em;
+    width: 1rem;
+    height: 2px;
+    background: var(--color-accent);
+  }
+</style>

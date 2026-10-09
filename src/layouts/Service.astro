@@ -1,0 +1,136 @@
+---
+import type { ImageMetadata } from 'astro';
+import Base from './Base.astro';
+import Button from '../components/Button.astro';
+import Fact from '../components/Fact.astro';
+import Picture from '../components/Picture.astro';
+import { estimatePath, services, telHref } from '../lib/config';
+
+interface Props {
+  slug: string;
+  title: string;
+  description: string;
+  h1: string;
+  intro: string;
+  ctaLabel: string;
+  hero: 'split' | 'wide';
+  photo: ImageMetadata;
+  photoAlt: string;
+}
+
+const { slug, title, description, h1, intro, ctaLabel, hero, photo, photoAlt } = Astro.props;
+const service = services.find((s) => s.slug === slug);
+if (!service) throw new Error(`Unknown service slug "${slug}"`);
+---
+<Base title={title} description={description} cta={{ label: ctaLabel }}>
+  <section class:list={['service-hero', `service-hero-${hero}`]} aria-labelledby="service-hero-heading">
+    <div class="service-hero-inner container">
+      <div class="service-hero-text">
+        <p class="service-hero-eyebrow">{service.name}</p>
+        <h1 id="service-hero-heading"><Fact text={h1} name="H1" /></h1>
+        <p class="service-hero-intro"><Fact text={intro} name="Intro" /></p>
+        <div class="service-hero-actions">
+          <Button href={estimatePath}>{ctaLabel}</Button>
+          <Button variant="secondary" href={telHref}><Fact field="contact.phoneDisplay" /></Button>
+        </div>
+      </div>
+      <div class="service-hero-photo">
+        <Picture
+          src={photo}
+          alt={photoAlt}
+          sizes={hero === 'wide' ? '(min-width: 76rem) 76rem, 100vw' : '(min-width: 64rem) 32rem, 100vw'}
+          priority
+        />
+      </div>
+    </div>
+  </section>
+  <slot />
+</Base>
+
+<style>
+  .service-hero {
+    padding-block: var(--space-7);
+  }
+
+  .service-hero-inner {
+    display: grid;
+    gap: var(--space-6);
+  }
+
+  .service-hero-eyebrow {
+    margin-bottom: var(--space-3);
+    color: var(--color-accent-dark);
+    font-size: var(--step--1);
+    font-weight: 600;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+  }
+
+  .service-hero-intro {
+    margin-top: var(--space-4);
+    max-width: 48ch;
+    font-size: var(--step-1);
+    line-height: 1.45;
+    color: var(--color-ink-muted);
+  }
+
+  .service-hero-actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-3);
+    margin-top: var(--space-5);
+  }
+
+  .service-hero-photo {
+    overflow: hidden;
+    background: var(--color-line);
+  }
+
+  .service-hero-photo :global(img) {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
+  .service-hero-split .service-hero-photo {
+    aspect-ratio: 4 / 3;
+  }
+
+  .service-hero-wide .service-hero-photo {
+    aspect-ratio: 16 / 9;
+  }
+
+  @media (min-width: 48rem) {
+    .service-hero-split .service-hero-inner {
+      grid-template-columns: 7fr 5fr;
+      gap: var(--space-7);
+      align-items: center;
+    }
+
+    .service-hero-wide .service-hero-text {
+      display: grid;
+      grid-template-columns: 7fr 5fr;
+      column-gap: var(--space-7);
+      align-items: end;
+    }
+
+    .service-hero-wide .service-hero-eyebrow,
+    .service-hero-wide h1 {
+      grid-column: 1;
+    }
+
+    .service-hero-wide .service-hero-intro,
+    .service-hero-wide .service-hero-actions {
+      grid-column: 2;
+    }
+
+    .service-hero-wide .service-hero-intro {
+      grid-row: 2;
+      margin-top: 0;
+    }
+
+    .service-hero-wide .service-hero-actions {
+      grid-row: 3;
+    }
+  }
+</style>

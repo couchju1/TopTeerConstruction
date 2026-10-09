@@ -1,0 +1,32 @@
+---
+import Accordion from './Accordion.astro';
+import Fact from './Fact.astro';
+import Section from './Section.astro';
+import { faqPageJsonLd, type FaqItem } from '../lib/faq';
+
+interface Props {
+  heading: string;
+  items: FaqItem[];
+  tone?: 'limestone' | 'white';
+}
+
+const { heading, items, tone = 'limestone' } = Astro.props;
+---
+{
+  items.length > 0 && (
+    <Section tone={tone} grid="5-7" aria-labelledby="faq-heading" class="faq-section">
+      <h2 id="faq-heading">
+        <Fact text={heading} name="FAQ heading" />
+      </h2>
+      <Accordion items={items}>
+        {(faqs: FaqItem[]) => <script type="application/ld+json" set:html={JSON.stringify(faqPageJsonLd(faqs))} />}
+      </Accordion>
+    </Section>
+  )
+}
+
+<style>
+  .faq-section :global(.section-grid) {
+    align-items: start;
+  }
+</style>
