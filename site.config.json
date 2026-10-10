@@ -12,12 +12,19 @@
     "phoneDisplay": "(605) 290-2881",
     "phoneE164": "+16052902881",
     "phoneConfirmed": true,
-    "acceptsTexts": "[CONFIRM]",
+    "acceptsTexts": true,
     "email": "chad@topteerconstruction.com",
     "formRecipient": "chad@topteerconstruction.com",
     "callbackPromise": "same day",
-    "hours": "8 a.m. to 5 p.m.",
-    "openingHoursSpecification": []
+    "hours": "Monday to Friday, 8 a.m. to 5 p.m.",
+    "openingHoursSpecification": [
+      {
+        "@type": "OpeningHoursSpecification",
+        "dayOfWeek": ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday"],
+        "opens": "08:00",
+        "closes": "17:00"
+      }
+    ]
   },
   "location": {
     "serviceAreaBusiness": true,
