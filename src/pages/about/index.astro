@@ -1,11 +1,9 @@
 ---
 import Base from '../../layouts/Base.astro';
 import Fact from '../../components/Fact.astro';
-import Picture from '../../components/Picture.astro';
 import Section from '../../components/Section.astro';
 import { credentials, shownInBuild } from '../../lib/config';
 import { aboutCopy as copy } from '../../lib/page-copy';
-import photo from '../../assets/photos/placeholder-hero.jpg';
 
 const paperwork = [
   { label: 'Insurance', field: 'credentials.insured', value: credentials.insured },
@@ -17,9 +15,6 @@ const paperwork = [
 <Base title={copy.title} description={copy.description}>
   <section class="about-hero container" aria-labelledby="about-heading">
     <h1 id="about-heading"><Fact text={copy.h1} name="About heading" /></h1>
-    <div class="about-photo">
-      <Picture src={photo} alt={copy.photoAlt} sizes="(min-width: 76rem) 76rem, 100vw" priority />
-    </div>
   </section>
 
   <Section grid="5-7" aria-label="My story" class="about-story">
@@ -60,17 +55,6 @@ const paperwork = [
     padding-block: var(--space-7) 0;
   }
 
-  .about-photo {
-    aspect-ratio: 3 / 2;
-    overflow: hidden;
-    background: var(--color-line);
-  }
-
-  .about-photo :global(img) {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-  }
 
   .about-story-text {
     display: grid;

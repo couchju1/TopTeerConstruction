@@ -15,8 +15,8 @@ interface Props {
   intro: string;
   ctaLabel: string;
   hero: 'split' | 'wide';
-  photo: ImageMetadata;
-  photoAlt: string;
+  photo?: ImageMetadata;
+  photoAlt?: string;
 }
 
 const { slug, title, description, h1, intro, ctaLabel, hero, photo, photoAlt } = Astro.props;
@@ -24,7 +24,7 @@ const service = services.find((s) => s.slug === slug);
 if (!service) throw new Error(`Unknown service slug "${slug}"`);
 ---
 <Base title={title} description={description} cta={{ label: ctaLabel }} schema={[serviceJsonLd(slug, Astro.url.pathname)]}>
-  <section class:list={['service-hero', `service-hero-${hero}`]} aria-labelledby="service-hero-heading">
+  <section class:list={['service-hero', `service-hero-${hero}`, !photo && 'service-hero-text-only']} aria-labelledby="service-hero-heading">
     <div class="service-hero-inner container">
       <div class="service-hero-text">
         <p class="service-hero-eyebrow">{service.name}</p>
@@ -35,14 +35,18 @@ if (!service) throw new Error(`Unknown service slug "${slug}"`);
           <Button variant="secondary" href={telHref} data-track="call" data-track-location="hero"><Fact field="contact.phoneDisplay" /></Button>
         </div>
       </div>
-      <div class="service-hero-photo">
-        <Picture
-          src={photo}
-          alt={photoAlt}
-          sizes={hero === 'wide' ? '(min-width: 76rem) 76rem, 100vw' : '(min-width: 64rem) 32rem, 100vw'}
-          priority
-        />
-      </div>
+      {
+        photo && (
+          <div class="service-hero-photo">
+            <Picture
+              src={photo}
+              alt={photoAlt ?? ''}
+              sizes={hero === 'wide' ? '(min-width: 76rem) 76rem, 100vw' : '(min-width: 64rem) 32rem, 100vw'}
+              priority
+            />
+          </div>
+        )
+      }
     </div>
   </section>
   <slot />
@@ -102,7 +106,7 @@ if (!service) throw new Error(`Unknown service slug "${slug}"`);
   }
 
   @media (min-width: 48rem) {
-    .service-hero-split .service-hero-inner {
+    .service-hero-split:not(.service-hero-text-only) .service-hero-inner {
       grid-template-columns: 7fr 5fr;
       gap: var(--space-7);
       align-items: center;

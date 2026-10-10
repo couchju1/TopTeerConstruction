@@ -5,9 +5,8 @@ import FaqSection from '../../components/FaqSection.astro';
 import Section from '../../components/Section.astro';
 import ServiceGallery from '../../components/ServiceGallery.astro';
 import { decksCopy as copy } from '../../lib/service-copy';
-import hero from '../../assets/photos/placeholder-hero.jpg';
 ---
-<Service slug="decks" hero="split" photo={hero} {...copy}>
+<Service slug="decks" hero="split" {...copy}>
   <ServiceGallery service="decks" heading={copy.galleryHeading} />
 
   <Section tone="white" aria-labelledby="wood-or-composite">

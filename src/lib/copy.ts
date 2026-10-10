@@ -2,11 +2,11 @@ export const copy = {
   skipLink: 'Skip to main content',
   estimateCta: 'Free estimate',
   footerCta: {
-    heading: '[CONFIRM: plan.md Phase 5 Global] Got a project in mind?',
-    body: '[CONFIRM: plan.md Phase 5 Global] Tell me what you want to build and I will come look at it.',
+    heading: 'Got a project in mind?',
+    body: 'Tell me what you want to build and I will come look at it.',
     button: 'Get a free estimate',
   },
-  reviewsHeading: '[CONFIRM: plan.md Phase 5] What people say',
+  reviewsHeading: 'What people say',
   footer: {
     contactHeading: 'Contact',
     hoursHeading: 'Hours',

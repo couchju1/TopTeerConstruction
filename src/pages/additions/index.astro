@@ -6,9 +6,8 @@ import ProcessSteps from '../../components/ProcessSteps.astro';
 import Section from '../../components/Section.astro';
 import ServiceGallery from '../../components/ServiceGallery.astro';
 import { additionsCopy as copy } from '../../lib/service-copy';
-import hero from '../../assets/photos/placeholder-hero.jpg';
 ---
-<Service slug="additions" hero="split" photo={hero} {...copy}>
+<Service slug="additions" hero="split" {...copy}>
   <Section tone="white" grid="5-7" aria-labelledby="why-add" class="additions-why">
     <h2 id="why-add"><Fact text={copy.whyHeading} name="Why heading" /></h2>
     <p><Fact text={copy.whyBody} name="Why body" /></p>

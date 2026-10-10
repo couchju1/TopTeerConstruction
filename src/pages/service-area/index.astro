@@ -21,8 +21,13 @@ const milesFromBase = (town: string) => {
 const towns = location.serviceTowns
   .map((town) => {
     const miles = milesFromBase(town);
-    const where = town === location.city ? `This is home base.` : miles !== null ? `About ${miles} miles from ${location.city}.` : '';
-    return { town, text: `${copy.townLead} ${where} The plan's paragraph about working in ${town} goes here.` };
+    const text =
+      town === location.city
+        ? `${town} is home base. Most jobs here, I can come look at the same week you call.`
+        : miles !== null
+          ? `${town} is about ${miles} miles from home base in ${location.city}, close enough that I can be on site the same week you call.`
+          : `${town} is in my regular service area. Call and I will set a time to come look.`;
+    return { town, text };
   })
   .filter((t) => shownInBuild(t.text));
 ---
