@@ -41,7 +41,7 @@ export const aboutCopy = {
   h1: `${P} About ${business.owner}`,
   photoAlt: `[CONFIRM: real photo] Placeholder for a photo of ${business.owner} on a job site`,
   story: [
-    `${P} I have worked in the trades for ${business.yearsInTrades} years. I started ${business.name} in ${business.foundingYear} so the person you meet at the estimate is the person who builds your job.`,
+    `${P} I started ${business.name} in ${business.foundingYear} so the person you meet at the estimate is the person who builds your job.`,
     `${P} I live in ${location.city} and most of my work is within a half hour of home. That means I am around after the job is done, too.`,
   ],
   runHeading: 'How I run a job',

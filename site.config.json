@@ -3,21 +3,20 @@
     "name": "Top Teer Construction",
     "shortName": "Top Teer",
     "owner": "Chad",
-    "ownerLastName": "[CONFIRM]",
+    "ownerLastName": "Erickson",
     "foundingYear": 2026,
-    "yearsInTrades": "[CONFIRM: 10]",
     "tagline": "Remodeling around Sioux Falls, built by the guy who bid it.",
     "schemaType": "GeneralContractor"
   },
   "contact": {
     "phoneDisplay": "(605) 290-2881",
     "phoneE164": "+16052902881",
-    "phoneConfirmed": false,
+    "phoneConfirmed": true,
     "acceptsTexts": "[CONFIRM]",
     "email": "chad@topteerconstruction.com",
     "formRecipient": "chad@topteerconstruction.com",
-    "callbackPromise": "[CONFIRM: same day | next business day]",
-    "hours": "[CONFIRM]",
+    "callbackPromise": "same day",
+    "hours": "8 a.m. to 5 p.m.",
     "openingHoursSpecification": []
   },
   "location": {

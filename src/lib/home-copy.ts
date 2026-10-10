@@ -1,4 +1,4 @@
-import { business, credentials, location } from './config';
+import { business, contact, location } from './config';
 
 const towns = location.serviceTowns.filter((t) => t !== location.city);
 const townList = `${towns.slice(0, -1).join(', ')} and ${towns[towns.length - 1]}`;
@@ -11,9 +11,9 @@ export const homeCopy = {
   primaryCta: 'Get a free estimate',
   heroAlt: '[CONFIRM: real photo and alt text] Placeholder for the hero photo',
   proof: [
-    `${business.yearsInTrades} years in the trades`,
+    'Free estimates',
+    `Callbacks ${contact.callbackPromise}`,
     `[CONFIRM: plan Home] The guy who bids it builds it`,
-    `${credentials.insured} Insured`,
   ] as [string, string, string],
   servicesHeading: 'What I build',
   beforeAfterHeading: 'One job, start to finish',
