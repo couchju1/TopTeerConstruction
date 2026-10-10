@@ -38,6 +38,7 @@ export const homeCopy = {
   ],
   introHeading: `Hi, I'm ${business.owner}.`,
   introBody: `I started ${business.name} so the person who bids your job is the person who builds it. No salesman, no hand-off to a crew you never met.`,
+  introAlt: `${business.owner} ${business.ownerLastName} of ${business.name}, smiling, in a white company polo`,
   introLink: 'More about me',
   areaHeading: 'Where I work',
   areaLink: 'See every town I work in',

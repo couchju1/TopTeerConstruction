@@ -216,6 +216,7 @@ const accept = [...ACCEPTED_TYPES, ...ACCEPTED_EXTENSIONS].join(',');
   type Settings = {
     maxFiles: number;
     maxFileBytes: number;
+    uploadBudgetBytes: number;
     acceptedTypes: string[];
     limits: { name: number; town: number; email: number; details: number };
     messages: Record<string, string>;
@@ -266,6 +267,39 @@ const accept = [...ACCEPTED_TYPES, ...ACCEPTED_EXTENSIONS].join(',');
         }
         return '';
       },
+    };
+
+    const MAX_EDGE = 2000;
+
+    const shrink = async (file: File): Promise<File> => {
+      if (file.type === 'image/jpeg' && file.size < 900_000) return file;
+      try {
+        const bitmap = await createImageBitmap(file, { imageOrientation: 'from-image' });
+        const scale = Math.min(1, MAX_EDGE / Math.max(bitmap.width, bitmap.height));
+        const canvas = document.createElement('canvas');
+        canvas.width = Math.round(bitmap.width * scale);
+        canvas.height = Math.round(bitmap.height * scale);
+        canvas.getContext('2d')?.drawImage(bitmap, 0, 0, canvas.width, canvas.height);
+        bitmap.close();
+        const blob = await new Promise<Blob | null>((resolve) => canvas.toBlob(resolve, 'image/jpeg', 0.82));
+        if (!blob || blob.size >= file.size) return file;
+        return new File([blob], `${file.name.replace(/\.[^.]+$/, '')}.jpg`, { type: 'image/jpeg' });
+      } catch {
+        return file;
+      }
+    };
+
+    const buildBody = async () => {
+      const body = new FormData(form);
+      const photos = Array.from(field('photos[]')?.files ?? []);
+      body.delete('photos[]');
+      let total = 0;
+      for (const photo of photos) {
+        const small = await shrink(photo);
+        total += small.size;
+        body.append('photos[]', small, small.name);
+      }
+      return { body, total };
     };
 
     const errorEl = (input: HTMLElement) => document.getElementById(`${input.id}-error`);
@@ -321,9 +355,16 @@ const accept = [...ACCEPTED_TYPES, ...ACCEPTED_EXTENSIONS].join(',');
       submit.textContent = 'Sending...';
 
       try {
+        const { body, total } = await buildBody();
+        if (total > settings.uploadBudgetBytes) {
+          reset();
+          setError('photos[]', m.photosTotal);
+          field('photos[]')?.focus();
+          return;
+        }
         const response = await fetch(form.action, {
           method: 'POST',
-          body: new FormData(form),
+          body,
           headers: { Accept: 'application/json' },
         });
         const result = await response.json().catch(() => null);

@@ -42,6 +42,7 @@ export const aboutCopy = {
     `I started ${business.name} in ${business.foundingYear} so the person you meet at the estimate is the person who builds your job.`,
     `I live in ${location.city} and most of my work is within a half hour of home. That means I am around after the job is done, too.`,
   ],
+  photoAlt: `${business.owner} ${business.ownerLastName} of ${business.name}, smiling, in a white company polo`,
   runHeading: 'How I run a job',
   run: [
     `I give you a written price before work starts.`,

@@ -5,6 +5,7 @@ export const form = siteConfig.form;
 export const ACCEPTED_TYPES = ['image/jpeg', 'image/png', 'image/heic', 'image/webp'];
 export const ACCEPTED_EXTENSIONS = ['.jpg', '.jpeg', '.png', '.heic', '.webp'];
 export const MIN_SECONDS = 3;
+export const UPLOAD_BUDGET_BYTES = 5.5 * 1024 * 1024;
 
 export const limits = {
   name: 80,
@@ -23,6 +24,7 @@ export const messages = {
   photosCount: `You can attach up to ${form.maxFiles} photos.`,
   photosSize: `Each photo needs to be under ${form.maxFileMB} MB.`,
   photosType: 'Photos need to be JPG, PNG, HEIC or WebP.',
+  photosTotal: 'Those photos are too big to send together. Try fewer photos, or text them to me after.',
 };
 
 export const formSettings = {
@@ -35,6 +37,7 @@ export const formSettings = {
   maxFileBytes: form.maxFileMB * 1024 * 1024,
   acceptedTypes: ACCEPTED_TYPES,
   minSeconds: MIN_SECONDS,
+  uploadBudgetBytes: UPLOAD_BUDGET_BYTES,
   limits,
   messages,
 };

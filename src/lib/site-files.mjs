@@ -18,7 +18,7 @@ async function htmlFiles(dir) {
 const decode = (s) =>
   s.replace(/&amp;/g, '&').replace(/&#39;/g, "'").replace(/&quot;/g, '"').replace(/&lt;/g, '<').replace(/&gt;/g, '>');
 
-function htaccess({ host, scriptHashes, analytics }) {
+function headersFile({ scriptHashes, analytics }) {
   const csp = [
     "default-src 'self'",
     ['script-src', "'self'", ...analytics.script, ...scriptHashes.map((h) => `'${h}'`)].join(' '),
@@ -33,43 +33,30 @@ function htaccess({ host, scriptHashes, analytics }) {
     'upgrade-insecure-requests',
   ].join('; ');
 
-  return `ErrorDocument 404 /404.html
-Options -Indexes
-DirectoryIndex index.html
+  return `/*
+  Strict-Transport-Security: max-age=31536000
+  X-Content-Type-Options: nosniff
+  Referrer-Policy: strict-origin-when-cross-origin
+  Permissions-Policy: camera=(), microphone=(), geolocation=()
+  X-Frame-Options: SAMEORIGIN
+  Content-Security-Policy: ${csp}
 
-<IfModule mod_rewrite.c>
-  RewriteEngine On
+/_astro/*
+  Cache-Control: public, max-age=31536000, immutable
 
-  RewriteCond %{HTTPS} off [OR]
-  RewriteCond %{HTTP_HOST} !^${host.replace(/\./g, '\\.')}(:[0-9]+)?$ [NC]
-  RewriteRule ^ https://${host}%{REQUEST_URI} [L,R=301]
+/fonts/*
+  Cache-Control: public, max-age=31536000, immutable
 
-  RewriteRule (^|/)\\.(?!well-known/) - [F]
-  RewriteRule \\.(env|log|ini|sql|bak|lock|md)$ - [F,NC]
-  RewriteRule ^(logs|storage|vendor|node_modules|src)(/|$) - [F,NC]
-</IfModule>
+/og/*
+  Cache-Control: public, max-age=604800
+`;
+}
 
-<IfModule mod_headers.c>
-  Header always set Strict-Transport-Security "max-age=31536000"
-  Header always set X-Content-Type-Options "nosniff"
-  Header always set Referrer-Policy "strict-origin-when-cross-origin"
-  Header always set Permissions-Policy "camera=(), microphone=(), geolocation=()"
-  Header always set X-Frame-Options "SAMEORIGIN"
-  Header always set Content-Security-Policy "${csp}"
-
-  <FilesMatch "\\.(css|js|woff2|avif|webp)$">
-    Header set Cache-Control "public, max-age=31536000, immutable"
-  </FilesMatch>
-  <FilesMatch "\\.(jpe?g|png|svg|ico|xml|txt)$">
-    Header set Cache-Control "public, max-age=604800"
-  </FilesMatch>
-  <FilesMatch "\\.html$">
-    Header set Cache-Control "public, max-age=300, must-revalidate"
-  </FilesMatch>
-  <FilesMatch "\\.php$">
-    Header set Cache-Control "no-store"
-  </FilesMatch>
-</IfModule>
+function redirectsFile({ host }) {
+  const apex = host.replace(/^www\./, '');
+  if (apex === host) return '';
+  return `http://${apex}/* https://${host}/:splat 301!
+https://${apex}/* https://${host}/:splat 301!
 `;
 }
 
@@ -116,7 +103,8 @@ export function siteFiles({ siteUrl, analytics = { script: [], connect: [], img:
         if (problems.length > 0) throw new Error(`SEO check failed:\n${problems.join('\n')}`);
 
         const host = new URL(siteUrl).host;
-        await writeFile(join(root, '.htaccess'), htaccess({ host, scriptHashes: [...hashes].sort(), analytics }));
+        await writeFile(join(root, '_headers'), headersFile({ scriptHashes: [...hashes].sort(), analytics }));
+        await writeFile(join(root, '_redirects'), redirectsFile({ host }));
       },
     },
   };

@@ -109,7 +109,7 @@
     "id": ""
   },
   "form": {
-    "endpoint": "/contact.php",
+    "endpoint": "/api/estimate",
     "maxFiles": 3,
     "maxFileMB": 10,
     "honeypotField": "company",

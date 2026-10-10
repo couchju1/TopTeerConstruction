@@ -15,10 +15,12 @@
   },
   "dependencies": {
     "@astrojs/sitemap": "^3.7.4",
-    "astro": "^7.3.8"
+    "astro": "^7.3.8",
+    "nodemailer": "^10.0.16"
   },
   "devDependencies": {
     "@astrojs/check": "^0.9.10",
+    "@types/nodemailer": "^8.0.2",
     "exiftool-vendored": "^39.0.1",
     "heic-convert": "^2.1.0",
     "typescript": "^6.0.3"
