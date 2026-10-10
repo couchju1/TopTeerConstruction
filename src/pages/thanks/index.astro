@@ -10,11 +10,21 @@ import { thanksCopy as copy } from '../../lib/page-copy';
     <h1 id="thanks-heading"><Fact text={copy.h1} name="Thanks heading" /></h1>
     <p><Fact text={copy.body} name="Thanks body" /></p>
     <div class="thanks-actions">
-      <Button href={telHref}><Fact field="contact.phoneDisplay" /></Button>
+      <Button href={telHref} data-track="call" data-track-location="page"><Fact field="contact.phoneDisplay" /></Button>
       <Button variant="secondary" href="/">{copy.home}</Button>
     </div>
   </section>
 </Base>
+
+<script>
+  import { track } from '../../lib/track';
+
+  const params = new URLSearchParams(window.location.search);
+  if (params.get('sent') === '1') {
+    track('lead', { town: params.get('town') ?? '', project_type: params.get('type') ?? '' });
+    history.replaceState(null, '', window.location.pathname);
+  }
+</script>
 
 <style>
   .thanks {

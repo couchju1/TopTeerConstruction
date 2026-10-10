@@ -19,7 +19,7 @@ import { estimateCopy as copy } from '../../lib/page-copy';
       </ol>
       <p class="estimate-call">
         <Fact text={copy.sideCall} name="Side call" /><br />
-        <a href={telHref}><Fact field="contact.phoneDisplay" /></a>
+        <a href={telHref} data-track="call" data-track-location="page"><Fact field="contact.phoneDisplay" /></a>
       </p>
     </aside>
   </section>

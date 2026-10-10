@@ -18,14 +18,14 @@ async function htmlFiles(dir) {
 const decode = (s) =>
   s.replace(/&amp;/g, '&').replace(/&#39;/g, "'").replace(/&quot;/g, '"').replace(/&lt;/g, '<').replace(/&gt;/g, '>');
 
-function htaccess({ host, scriptHashes }) {
+function htaccess({ host, scriptHashes, analytics }) {
   const csp = [
     "default-src 'self'",
-    `script-src 'self' ${scriptHashes.map((h) => `'${h}'`).join(' ')}`.trim(),
+    ['script-src', "'self'", ...analytics.script, ...scriptHashes.map((h) => `'${h}'`)].join(' '),
     "style-src 'self' 'unsafe-inline'",
-    "img-src 'self' data:",
+    ['img-src', "'self'", 'data:', ...analytics.img].join(' '),
     "font-src 'self'",
-    "connect-src 'self'",
+    ['connect-src', "'self'", ...analytics.connect].join(' '),
     "form-action 'self'",
     "frame-ancestors 'self'",
     "base-uri 'self'",
@@ -73,7 +73,7 @@ DirectoryIndex index.html
 `;
 }
 
-export function siteFiles({ siteUrl }) {
+export function siteFiles({ siteUrl, analytics = { script: [], connect: [], img: [] } }) {
   return {
     name: 'site-files',
     hooks: {
@@ -116,7 +116,7 @@ export function siteFiles({ siteUrl }) {
         if (problems.length > 0) throw new Error(`SEO check failed:\n${problems.join('\n')}`);
 
         const host = new URL(siteUrl).host;
-        await writeFile(join(root, '.htaccess'), htaccess({ host, scriptHashes: [...hashes].sort() }));
+        await writeFile(join(root, '.htaccess'), htaccess({ host, scriptHashes: [...hashes].sort(), analytics }));
       },
     },
   };

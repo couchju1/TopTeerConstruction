@@ -259,4 +259,4 @@ try {
     finish(false, FORM_PATH . '#estimate-server-error', [], 502);
 }
 
-finish(true, THANKS_PATH . '?sent=1');
+finish(true, THANKS_PATH . '?' . http_build_query(['sent' => '1', 'town' => $town, 'type' => $projectType]));

@@ -23,7 +23,7 @@ const accept = [...ACCEPTED_TYPES, ...ACCEPTED_EXTENSIONS].join(',');
     <p>{invalidText}</p>
   </div>
   <div id="estimate-server-error" class="estimate-alert" tabindex="-1" data-alert="server">
-    <p><Fact text={serverErrorText} name="Form server error" /> <a href={telHref}><Fact field="contact.phoneDisplay" /></a></p>
+    <p><Fact text={serverErrorText} name="Form server error" /> <a href={telHref} data-track="call" data-track-location="page"><Fact field="contact.phoneDisplay" /></a></p>
   </div>
 
   <div class="estimate-field">

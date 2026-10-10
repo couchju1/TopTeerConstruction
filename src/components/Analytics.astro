@@ -1,0 +1,15 @@
+---
+import { assertLaunchReady, site } from '../lib/config';
+import { analyticsProvider } from '../lib/analytics';
+import siteConfig from '../../site.config.json';
+
+assertLaunchReady('analytics.provider', siteConfig.analytics.provider);
+const provider = analyticsProvider();
+const id = siteConfig.analytics.id;
+if (provider === 'ga4') assertLaunchReady('analytics.id', id || '[CONFIRM: GA4 measurement ID]');
+---
+{provider === 'plausible' && <script is:inline defer data-domain={id || site.domain} src="https://plausible.io/js/script.js" />}
+{provider === 'ga4' && id && <script is:inline async src={`https://www.googletagmanager.com/gtag/js?id=${id}`} />}
+<script>
+  import '../lib/track';
+</script>

@@ -31,8 +31,8 @@ if (!service) throw new Error(`Unknown service slug "${slug}"`);
         <h1 id="service-hero-heading"><Fact text={h1} name="H1" /></h1>
         <p class="service-hero-intro"><Fact text={intro} name="Intro" /></p>
         <div class="service-hero-actions">
-          <Button href={estimatePath}>{ctaLabel}</Button>
-          <Button variant="secondary" href={telHref}><Fact field="contact.phoneDisplay" /></Button>
+          <Button href={estimatePath} data-track="estimate" data-track-location="hero">{ctaLabel}</Button>
+          <Button variant="secondary" href={telHref} data-track="call" data-track-location="hero"><Fact field="contact.phoneDisplay" /></Button>
         </div>
       </div>
       <div class="service-hero-photo">

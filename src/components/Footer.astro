@@ -13,7 +13,7 @@ import { copy } from '../lib/copy';
     <div class="site-footer-col">
       <h2 class="site-footer-heading">{copy.footer.contactHeading}</h2>
       <address>
-        <a href={telHref}><Fact field="contact.phoneDisplay" /></a><br />
+        <a href={telHref} data-track="call" data-track-location="footer"><Fact field="contact.phoneDisplay" /></a><br />
         <a href={mailHref}>{contact.email}</a><br />
         {location.city}, {location.region} {location.postalCode}
       </address>

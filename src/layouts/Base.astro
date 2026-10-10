@@ -6,7 +6,10 @@ import Header from '../components/Header.astro';
 import Footer from '../components/Footer.astro';
 import MobileBar from '../components/MobileBar.astro';
 import CtaBand, { type Props as CtaProps } from '../components/CtaBand.astro';
+import Analytics from '../components/Analytics.astro';
 import Seo from '../components/Seo.astro';
+import { analyticsProvider } from '../lib/analytics';
+import siteConfig from '../../site.config.json';
 import { assertLaunchReady, business } from '../lib/config';
 import { breadcrumbJsonLd, businessJsonLd } from '../lib/schema';
 import { copy } from '../lib/copy';
@@ -28,7 +31,7 @@ const breadcrumb = canonical ? breadcrumbJsonLd(Astro.url.pathname) : null;
 const jsonLd = [businessJsonLd(), ...(breadcrumb ? [breadcrumb] : []), ...schema];
 ---
 <!doctype html>
-<html lang="en">
+<html lang="en" data-analytics={analyticsProvider() ?? undefined} data-analytics-id={siteConfig.analytics.id || undefined}>
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -41,6 +44,7 @@ const jsonLd = [businessJsonLd(), ...(breadcrumb ? [breadcrumb] : []), ...schema
     <link rel="preload" href="/fonts/public-sans-latin-400-normal.woff2" as="font" type="font/woff2" crossorigin />
     <script is:inline>document.documentElement.classList.add('js');</script>
     {jsonLd.map((data) => <script type="application/ld+json" set:html={JSON.stringify(data)} />)}
+    <Analytics />
     <slot name="head" />
   </head>
   <body>

@@ -3,7 +3,7 @@ import { business, estimatePath, telHref } from '../lib/config';
 import { copy } from '../lib/copy';
 ---
 <nav class="mobile-bar" aria-label="Quick contact" data-mobile-bar>
-  <a class="mobile-bar-call" href={telHref}>
+  <a class="mobile-bar-call" href={telHref} data-track="call" data-track-location="mobile-bar">
     <svg width="20" height="20" viewBox="0 0 24 24" aria-hidden="true" focusable="false">
       <path
         d="M6.6 10.8a15.1 15.1 0 0 0 6.6 6.6l2.2-2.2a1 1 0 0 1 1-.25 11.4 11.4 0 0 0 3.6.57 1 1 0 0 1 1 1V20a1 1 0 0 1-1 1A17 17 0 0 1 3 4a1 1 0 0 1 1-1h3.5a1 1 0 0 1 1 1c0 1.25.2 2.45.57 3.57a1 1 0 0 1-.25 1z"
@@ -12,7 +12,7 @@ import { copy } from '../lib/copy';
     </svg>
     Call {business.owner}
   </a>
-  <a class="mobile-bar-estimate" href={estimatePath}>{copy.estimateCta}</a>
+  <a class="mobile-bar-estimate" href={estimatePath} data-track="estimate" data-track-location="mobile-bar">{copy.estimateCta}</a>
 </nav>
 
 <style>
