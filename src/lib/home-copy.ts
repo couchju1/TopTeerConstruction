@@ -15,7 +15,7 @@ export const homeCopy = {
     `Callbacks ${contact.callbackPromise}`,
     `The guy who bids it builds it`,
   ] as [string, string, string],
-  servicesHeading: 'What I build',
+  servicesHeading: 'Our services',
   beforeAfterHeading: 'One job, start to finish',
   processHeading: 'How a job goes',
   steps: [

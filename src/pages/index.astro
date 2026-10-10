@@ -10,7 +10,7 @@ import ProofStrip from '../components/ProofStrip.astro';
 import Reviews from '../components/Reviews.astro';
 import Section from '../components/Section.astro';
 import ServiceAreaMap from '../components/ServiceAreaMap.astro';
-import ServiceList from '../components/ServiceList.astro';
+import ServiceCards from '../components/ServiceCards.astro';
 import { estimatePath, telHref } from '../lib/config';
 import { homeCopy as copy } from '../lib/home-copy';
 import { getBeforeAfterPair, getProjects } from '../lib/projects';
@@ -18,42 +18,40 @@ import heroPhoto from '../assets/photos/hero-kitchen.jpg';
 import chadPhoto from '../assets/photos/chad-erickson.jpg';
 
 const pair = await getBeforeAfterPair();
-const thumbs: Record<string, ImageMetadata> = {};
-for (const project of await getProjects()) thumbs[project.data.service] ??= project.data.cover;
+const servicePhotos: Record<string, ImageMetadata> = { remodeling: heroPhoto };
+for (const project of await getProjects()) servicePhotos[project.data.service] ??= project.data.cover;
 ---
 <Base title={copy.title} description={copy.description}>
   <section class="home-hero" aria-labelledby="home-hero-heading">
+    <div class="home-hero-photo">
+      <Picture src={heroPhoto} alt={copy.heroAlt} sizes="100vw" priority />
+    </div>
     <div class="home-hero-inner container">
-      <div class="home-hero-text">
-        <p class="home-hero-stamp">{copy.stamp}</p>
-        <h1 id="home-hero-heading"><Fact field="business.tagline" /></h1>
-        <p class="home-hero-sub"><Fact text={copy.sub} name="Hero sub" /></p>
-        <div class="home-hero-actions">
-          <Button href={estimatePath} data-track="estimate" data-track-location="hero">{copy.primaryCta}</Button>
-          <Button variant="secondary" href={telHref} data-track="call" data-track-location="hero">
-            <svg width="18" height="18" viewBox="0 0 24 24" aria-hidden="true" focusable="false">
-              <path
-                d="M6.6 10.8a15.1 15.1 0 0 0 6.6 6.6l2.2-2.2a1 1 0 0 1 1-.25 11.4 11.4 0 0 0 3.6.57 1 1 0 0 1 1 1V20a1 1 0 0 1-1 1A17 17 0 0 1 3 4a1 1 0 0 1 1-1h3.5a1 1 0 0 1 1 1c0 1.25.2 2.45.57 3.57a1 1 0 0 1-.25 1z"
-                fill="currentColor"
-              />
-            </svg>
-            <Fact field="contact.phoneDisplay" />
-          </Button>
-        </div>
-      </div>
-      <div class="home-hero-photo">
-        <Picture src={heroPhoto} alt={copy.heroAlt} sizes="(min-width: 64rem) 40vw, 100vw" priority />
+      <p class="home-hero-stamp">{copy.stamp}</p>
+      <h1 id="home-hero-heading"><Fact field="business.tagline" /></h1>
+      <p class="home-hero-sub"><Fact text={copy.sub} name="Hero sub" /></p>
+      <div class="home-hero-actions">
+        <Button href={estimatePath} data-track="estimate" data-track-location="hero">{copy.primaryCta}</Button>
+        <Button variant="secondary" href={telHref} data-track="call" data-track-location="hero">
+          <svg width="18" height="18" viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+            <path
+              d="M6.6 10.8a15.1 15.1 0 0 0 6.6 6.6l2.2-2.2a1 1 0 0 1 1-.25 11.4 11.4 0 0 0 3.6.57 1 1 0 0 1 1 1V20a1 1 0 0 1-1 1A17 17 0 0 1 3 4a1 1 0 0 1 1-1h3.5a1 1 0 0 1 1 1c0 1.25.2 2.45.57 3.57a1 1 0 0 1-.25 1z"
+              fill="currentColor"
+            />
+          </svg>
+          <Fact field="contact.phoneDisplay" />
+        </Button>
       </div>
     </div>
   </section>
 
-  <Section tone="white" class="home-proof" aria-label="Quick facts">
-    <ProofStrip items={copy.proof} />
+  <Section aria-labelledby="home-services-heading" class="home-services">
+    <h2 id="home-services-heading" class="home-heading">{copy.servicesHeading}</h2>
+    <ServiceCards photos={servicePhotos} />
   </Section>
 
-  <Section aria-labelledby="home-services-heading">
-    <h2 id="home-services-heading" class="home-heading">{copy.servicesHeading}</h2>
-    <ServiceList thumbs={thumbs} />
+  <Section tone="white" class="home-proof" aria-label="Quick facts">
+    <ProofStrip items={copy.proof} />
   </Section>
 
   {
@@ -95,20 +93,20 @@ for (const project of await getProjects()) thumbs[project.data.service] ??= proj
 
 <style>
   .home-hero {
-    padding-block: 0 var(--space-7);
-  }
-
-  .home-hero-inner {
-    display: grid;
-    gap: var(--space-5);
+    position: relative;
+    display: flex;
+    align-items: flex-end;
+    min-height: min(82svh, 46rem);
+    padding-block: var(--space-8) var(--space-7);
+    color: var(--color-white);
+    background: var(--color-band-deep);
+    isolation: isolate;
   }
 
   .home-hero-photo {
-    order: -1;
-    margin-inline: calc(var(--gutter) * -1);
-    aspect-ratio: 4 / 5;
-    overflow: hidden;
-    background: var(--color-line);
+    position: absolute;
+    inset: 0;
+    z-index: -1;
   }
 
   .home-hero-photo :global(img) {
@@ -118,13 +116,39 @@ for (const project of await getProjects()) thumbs[project.data.service] ??= proj
     object-position: 30% 50%;
   }
 
+  .home-hero-photo::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(0deg, rgb(10 10 10 / 0.92) 0%, rgb(10 10 10 / 0.7) 45%, rgb(10 10 10 / 0.2) 100%);
+  }
+
+  .home-hero-inner {
+    display: grid;
+    justify-items: start;
+  }
+
+  .home-hero-inner h1 {
+    max-width: 16ch;
+    text-shadow: 0 2px 16px rgb(0 0 0 / 0.35);
+  }
+
   .home-hero-stamp {
-    margin-bottom: var(--space-3);
-    color: var(--color-accent-dark);
+    display: inline-flex;
+    align-items: center;
+    gap: var(--space-3);
+    margin-bottom: var(--space-4);
     font-size: var(--step--1);
     font-weight: 600;
     letter-spacing: 0.14em;
     text-transform: uppercase;
+  }
+
+  .home-hero-stamp::before {
+    content: "";
+    width: 2rem;
+    height: 2px;
+    background: var(--color-accent);
   }
 
   .home-hero-sub {
@@ -132,31 +156,35 @@ for (const project of await getProjects()) thumbs[project.data.service] ??= proj
     max-width: 46ch;
     font-size: var(--step-1);
     line-height: 1.45;
-    color: var(--color-ink-muted);
+    color: var(--color-on-band);
   }
 
   .home-hero-actions {
     display: flex;
     flex-wrap: wrap;
     gap: var(--space-3);
-    margin-top: var(--space-5);
+    margin-top: var(--space-6);
+  }
+
+  .home-hero-actions :global(.button-secondary) {
+    color: var(--color-white);
+    border-color: var(--color-white);
+    background: rgb(10 10 10 / 0.35);
+  }
+
+  .home-hero-actions :global(.button-secondary:hover) {
+    background: var(--color-white);
+    color: var(--color-ink);
   }
 
   @media (min-width: 48rem) {
     .home-hero {
-      padding-block: var(--space-7) var(--space-8);
-    }
-
-    .home-hero-inner {
-      grid-template-columns: 7fr 5fr;
-      gap: var(--space-7);
       align-items: center;
+      padding-block: var(--space-9);
     }
 
-    .home-hero-photo {
-      order: 0;
-      margin-inline: 0;
-      aspect-ratio: 5 / 4;
+    .home-hero-photo::after {
+      background: linear-gradient(90deg, rgb(10 10 10 / 0.88) 0%, rgb(10 10 10 / 0.65) 45%, rgb(10 10 10 / 0.1) 85%);
     }
   }
 
