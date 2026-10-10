@@ -1,0 +1,34 @@
+---
+import { business, site } from '../lib/config';
+import { absolute } from '../lib/schema';
+
+interface Props {
+  title: string;
+  description: string;
+  image?: string;
+  canonical?: boolean;
+  noindex?: boolean;
+}
+
+const { title, description, image = site.defaultOgImage, canonical = true, noindex = false } = Astro.props;
+const url = absolute(Astro.url.pathname);
+const imageUrl = absolute(image);
+---
+<title>{title}</title>
+<meta name="description" content={description} />
+{noindex && <meta name="robots" content="noindex" />}
+{canonical && <link rel="canonical" href={url} />}
+<meta property="og:type" content="website" />
+<meta property="og:site_name" content={business.name} />
+<meta property="og:locale" content={site.locale} />
+<meta property="og:title" content={title} />
+<meta property="og:description" content={description} />
+{canonical && <meta property="og:url" content={url} />}
+<meta property="og:image" content={imageUrl} />
+<meta property="og:image:width" content="1200" />
+<meta property="og:image:height" content="630" />
+<meta property="og:image:alt" content={business.name} />
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="twitter:title" content={title} />
+<meta name="twitter:description" content={description} />
+<meta name="twitter:image" content={imageUrl} />

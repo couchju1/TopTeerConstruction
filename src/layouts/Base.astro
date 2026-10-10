@@ -6,7 +6,9 @@ import Header from '../components/Header.astro';
 import Footer from '../components/Footer.astro';
 import MobileBar from '../components/MobileBar.astro';
 import CtaBand, { type Props as CtaProps } from '../components/CtaBand.astro';
+import Seo from '../components/Seo.astro';
 import { assertLaunchReady, business } from '../lib/config';
+import { breadcrumbJsonLd, businessJsonLd } from '../lib/schema';
 import { copy } from '../lib/copy';
 
 interface Props {
@@ -14,24 +16,31 @@ interface Props {
   description?: string;
   cta?: CtaProps | false;
   noindex?: boolean;
+  canonical?: boolean;
+  schema?: object[];
 }
 
-const { title = business.name, description = business.tagline, cta = {}, noindex = false } = Astro.props;
+const { title = business.name, description = business.tagline, cta = {}, noindex = false, canonical = true, schema = [] } = Astro.props;
 assertLaunchReady(`<title> on ${Astro.url.pathname}`, title);
 assertLaunchReady(`meta description on ${Astro.url.pathname}`, description);
+
+const breadcrumb = canonical ? breadcrumbJsonLd(Astro.url.pathname) : null;
+const jsonLd = [businessJsonLd(), ...(breadcrumb ? [breadcrumb] : []), ...schema];
 ---
 <!doctype html>
 <html lang="en">
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>{title}</title>
-    <meta name="description" content={description} />
-    {noindex && <meta name="robots" content="noindex" />}
+    <Seo title={title} description={description} canonical={canonical} noindex={noindex} />
+    <link rel="icon" href="/favicon.ico" sizes="48x48" />
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+    <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
     <meta name="theme-color" content="#F6F6F4" />
     <link rel="preload" href="/fonts/zilla-slab-latin-600-normal.woff2" as="font" type="font/woff2" crossorigin />
     <link rel="preload" href="/fonts/public-sans-latin-400-normal.woff2" as="font" type="font/woff2" crossorigin />
     <script is:inline>document.documentElement.classList.add('js');</script>
+    {jsonLd.map((data) => <script type="application/ld+json" set:html={JSON.stringify(data)} />)}
     <slot name="head" />
   </head>
   <body>

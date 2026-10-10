@@ -5,6 +5,7 @@ import Button from '../components/Button.astro';
 import Fact from '../components/Fact.astro';
 import Picture from '../components/Picture.astro';
 import { estimatePath, services, telHref } from '../lib/config';
+import { serviceJsonLd } from '../lib/schema';
 
 interface Props {
   slug: string;
@@ -22,7 +23,7 @@ const { slug, title, description, h1, intro, ctaLabel, hero, photo, photoAlt } =
 const service = services.find((s) => s.slug === slug);
 if (!service) throw new Error(`Unknown service slug "${slug}"`);
 ---
-<Base title={title} description={description} cta={{ label: ctaLabel }}>
+<Base title={title} description={description} cta={{ label: ctaLabel }} schema={[serviceJsonLd(slug, Astro.url.pathname)]}>
   <section class:list={['service-hero', `service-hero-${hero}`]} aria-labelledby="service-hero-heading">
     <div class="service-hero-inner container">
       <div class="service-hero-text">

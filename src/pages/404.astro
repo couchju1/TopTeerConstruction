@@ -5,7 +5,7 @@ import Fact from '../components/Fact.astro';
 import { business, telHref } from '../lib/config';
 import { notFoundCopy as copy } from '../lib/page-copy';
 ---
-<Base title={copy.title} description={copy.description} cta={false} noindex>
+<Base title={copy.title} description={copy.description} cta={false} noindex canonical={false}>
   <section class="not-found container" aria-labelledby="not-found-heading">
     <p class="not-found-code" aria-hidden="true">404</p>
     <h1 id="not-found-heading"><Fact text={copy.h1} name="404 heading" /></h1>

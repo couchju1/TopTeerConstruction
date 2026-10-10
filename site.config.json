@@ -17,7 +17,8 @@
     "email": "chad@topteerconstruction.com",
     "formRecipient": "chad@topteerconstruction.com",
     "callbackPromise": "[CONFIRM: same day | next business day]",
-    "hours": "[CONFIRM]"
+    "hours": "[CONFIRM]",
+    "openingHoursSpecification": []
   },
   "location": {
     "serviceAreaBusiness": true,
