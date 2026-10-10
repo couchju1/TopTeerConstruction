@@ -12,5 +12,6 @@ export const copy = {
     hoursHeading: 'Hours',
     areaHeading: 'Where I work',
     privacy: 'Privacy',
+    serviceArea: 'Service area',
   },
 };

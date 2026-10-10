@@ -41,5 +41,6 @@ export const homeCopy = {
   introAlt: `[CONFIRM: real photo and alt text] Placeholder for a photo of ${business.owner}`,
   introLink: 'More about me',
   areaHeading: '[CONFIRM: plan Home] Where I work',
+  areaLink: 'See every town I work in',
   areaBody: `[CONFIRM: plan Home] I work within about ${location.radiusMiles} miles of ${location.city}: ${townList}. A little farther out? Call and ask.`,
 };

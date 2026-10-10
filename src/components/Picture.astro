@@ -6,12 +6,11 @@ type Base = {
   src: ImageMetadata;
   sizes?: string;
   priority?: boolean;
-  class?: string;
 };
 
 type Props = Base & ({ alt: string; decorative?: false } | { alt: ''; decorative: true });
 
-const { src, alt, decorative = false, sizes = '100vw', priority = false, class: className } = Astro.props;
+const { src, alt, decorative = false, sizes = '100vw', priority = false } = Astro.props;
 
 if (typeof alt !== 'string') throw new Error('Picture: alt is required');
 if (alt.trim() === '' && !decorative) {
@@ -30,5 +29,4 @@ if (widths.length === 0) widths.push(src.width);
   loading={priority ? 'eager' : 'lazy'}
   decoding={priority ? 'sync' : 'async'}
   fetchpriority={priority ? 'high' : undefined}
-  class={className}
 />

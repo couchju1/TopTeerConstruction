@@ -5,17 +5,15 @@ import { estimatePath, telHref } from '../lib/config';
 import { copy } from '../lib/copy';
 
 export interface Props {
-  heading?: string;
-  body?: string;
   label?: string;
 }
 
-const { heading, body, label = copy.footerCta.button } = Astro.props;
+const { label = copy.footerCta.button } = Astro.props;
 ---
 <section class="cta-band" aria-labelledby="cta-band-heading">
   <div class="cta-band-inner container">
-    <h2 id="cta-band-heading">{heading ? <Fact text={heading} name="CtaBand heading" /> : <Fact field="copy.footerCta.heading" />}</h2>
-    <p>{body ? <Fact text={body} name="CtaBand body" /> : <Fact field="copy.footerCta.body" />}</p>
+    <h2 id="cta-band-heading"><Fact field="copy.footerCta.heading" /></h2>
+    <p><Fact field="copy.footerCta.body" /></p>
     <div class="cta-band-actions">
       <Button href={estimatePath} data-track="estimate" data-track-location="footer">{label}</Button>
       <a class="cta-band-phone" href={telHref} data-track="call" data-track-location="footer"><Fact field="contact.phoneDisplay" /></a>

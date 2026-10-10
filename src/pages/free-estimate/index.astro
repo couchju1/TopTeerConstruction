@@ -6,18 +6,18 @@ import { telHref } from '../../lib/config';
 import { estimateCopy as copy } from '../../lib/page-copy';
 ---
 <Base title={copy.title} description={copy.description} cta={false}>
-  <section class="estimate container" aria-labelledby="estimate-heading">
-    <div class="estimate-main">
-      <h1 id="estimate-heading">{copy.h1}</h1>
-      <p class="estimate-intro"><Fact text={copy.intro} name="Estimate intro" /></p>
+  <section class="free-estimate container" aria-labelledby="free-estimate-heading">
+    <div class="free-estimate-main">
+      <h1 id="free-estimate-heading">{copy.h1}</h1>
+      <p class="free-estimate-intro"><Fact text={copy.intro} name="Estimate intro" /></p>
       <EstimateForm serverErrorText={copy.serverError} invalidText={copy.invalid} />
     </div>
-    <aside class="estimate-side" aria-labelledby="estimate-next">
-      <h2 id="estimate-next"><Fact text={copy.sideHeading} name="Side heading" /></h2>
-      <ol class="estimate-steps" role="list">
+    <aside class="free-estimate-side" aria-labelledby="free-estimate-next">
+      <h2 id="free-estimate-next"><Fact text={copy.sideHeading} name="Side heading" /></h2>
+      <ol class="free-estimate-steps" role="list">
         {copy.sideSteps.map((step, i) => <li><Fact text={step} name={`Side step ${i + 1}`} /></li>)}
       </ol>
-      <p class="estimate-call">
+      <p class="free-estimate-call">
         <Fact text={copy.sideCall} name="Side call" /><br />
         <a href={telHref} data-track="call" data-track-location="page"><Fact field="contact.phoneDisplay" /></a>
       </p>
@@ -26,21 +26,21 @@ import { estimateCopy as copy } from '../../lib/page-copy';
 </Base>
 
 <style>
-  .estimate {
+  .free-estimate {
     display: grid;
     gap: var(--space-7);
     padding-block: var(--space-7) var(--space-8);
   }
 
   @media (min-width: 64rem) {
-    .estimate {
+    .free-estimate {
       grid-template-columns: 7fr 5fr;
       gap: var(--space-8);
       align-items: start;
     }
   }
 
-  .estimate-intro {
+  .free-estimate-intro {
     max-width: 52ch;
     margin: var(--space-4) 0 var(--space-6);
     font-size: var(--step-1);
@@ -48,29 +48,29 @@ import { estimateCopy as copy } from '../../lib/page-copy';
     color: var(--color-ink-muted);
   }
 
-  .estimate-side {
+  .free-estimate-side {
     padding: var(--space-6);
     background: var(--color-white);
     border-top: 4px solid var(--color-accent);
   }
 
   @media (min-width: 64rem) {
-    .estimate-side {
+    .free-estimate-side {
       position: sticky;
       top: calc(var(--header-h) + var(--space-5));
     }
   }
 
-  .estimate-side h2 {
+  .free-estimate-side h2 {
     font-size: var(--step-2);
   }
 
-  .estimate-steps {
+  .free-estimate-steps {
     counter-reset: next;
     margin-block: var(--space-5);
   }
 
-  .estimate-steps li {
+  .free-estimate-steps li {
     counter-increment: next;
     display: grid;
     grid-template-columns: 2.25rem 1fr;
@@ -78,14 +78,14 @@ import { estimateCopy as copy } from '../../lib/page-copy';
     border-top: 1px solid var(--color-line);
   }
 
-  .estimate-steps li::before {
+  .free-estimate-steps li::before {
     content: counter(next);
     font-family: var(--font-display-stack);
     font-weight: 600;
     color: var(--color-accent-dark);
   }
 
-  .estimate-call a {
+  .free-estimate-call a {
     display: inline-flex;
     align-items: center;
     min-height: 44px;

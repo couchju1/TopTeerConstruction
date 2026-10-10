@@ -8,8 +8,8 @@ import hero from '../../assets/photos/placeholder-hero.jpg';
 ---
 <Service slug="new-construction" hero="wide" photo={hero} {...copy}>
   <Section tone="white" aria-labelledby="how-i-work">
-    <h2 id="how-i-work" class="newbuild-heading">{copy.howHeading}</h2>
-    <ul class="newbuild-how" role="list">
+    <h2 id="how-i-work" class="new-construction-heading">{copy.howHeading}</h2>
+    <ul class="new-construction-how" role="list">
       {
         copy.how.map((item, i) => (
           <li>
@@ -25,11 +25,11 @@ import hero from '../../assets/photos/placeholder-hero.jpg';
 </Service>
 
 <style>
-  .newbuild-heading {
+  .new-construction-heading {
     margin-bottom: var(--space-6);
   }
 
-  .newbuild-how li {
+  .new-construction-how li {
     display: grid;
     gap: var(--space-2);
     padding: var(--space-5) 0;
@@ -37,13 +37,13 @@ import hero from '../../assets/photos/placeholder-hero.jpg';
   }
 
   @media (min-width: 48rem) {
-    .newbuild-how li {
+    .new-construction-how li {
       grid-template-columns: 5fr 7fr;
       gap: var(--space-7);
     }
   }
 
-  .newbuild-how p {
+  .new-construction-how p {
     max-width: 52ch;
   }
 </style>

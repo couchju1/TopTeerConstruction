@@ -10,7 +10,8 @@
     "preview": "astro preview",
     "check": "astro check",
     "photos": "node scripts/prep-photos.mjs",
-    "test:exif": "node scripts/check-exif.mjs"
+    "test:exif": "node scripts/check-exif.mjs",
+    "check:copy": "node scripts/copy-check.mjs"
   },
   "dependencies": {
     "@astrojs/sitemap": "^3.7.4",

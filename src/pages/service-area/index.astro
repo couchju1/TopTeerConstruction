@@ -27,16 +27,16 @@ const towns = location.serviceTowns
   .filter((t) => shownInBuild(t.text));
 ---
 <Base title={copy.title} description={copy.description}>
-  <Section aria-labelledby="area-heading">
-    <h1 id="area-heading"><Fact text={copy.h1} name="Service area heading" /></h1>
-    <p class="area-intro"><Fact text={copy.intro} name="Service area intro" /></p>
+  <Section aria-labelledby="service-area-heading">
+    <h1 id="service-area-heading"><Fact text={copy.h1} name="Service area heading" /></h1>
+    <p class="service-area-intro"><Fact text={copy.intro} name="Service area intro" /></p>
     <ServiceAreaMap size="large" />
   </Section>
 
   {
     towns.length > 0 && (
       <Section tone="white" aria-label="Towns">
-        <ul class="area-towns" role="list">
+        <ul class="service-area-towns" role="list">
           {towns.map((t, i) => (
             <li>
               <h2 id={`town-${i}`}>{t.town}</h2>
@@ -50,32 +50,32 @@ const towns = location.serviceTowns
 </Base>
 
 <style>
-  .area-intro {
+  .service-area-intro {
     max-width: 52ch;
     margin: var(--space-4) 0 var(--space-6);
     font-size: var(--step-1);
     line-height: 1.5;
   }
 
-  .area-towns {
+  .service-area-towns {
     display: grid;
     gap: 0 var(--space-7);
   }
 
   @media (min-width: 48rem) {
-    .area-towns {
+    .service-area-towns {
       grid-template-columns: 1fr 1fr;
     }
   }
 
-  .area-towns li {
+  .service-area-towns li {
     display: grid;
     gap: var(--space-2);
     padding-block: var(--space-5);
     border-top: 1px solid var(--color-line);
   }
 
-  .area-towns h2 {
+  .service-area-towns h2 {
     font-size: var(--step-2);
   }
 </style>

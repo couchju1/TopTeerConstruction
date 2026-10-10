@@ -39,10 +39,10 @@ const points = towns.map((t) => {
   return { ...t, x, y, place, hub: t.name === 'Sioux Falls', base: t.name === location.city };
 });
 
-const titleId = `area-map-title-${size}`;
+const titleId = `service-area-map-title-${size}`;
 ---
 <svg
-  class:list={['area-map', `area-map-${size}`]}
+  class:list={['service-area-map', `service-area-map-${size}`]}
   viewBox={`0 0 ${width} ${height}`}
   role="img"
   aria-labelledby={titleId}
@@ -50,7 +50,7 @@ const titleId = `area-map-title-${size}`;
   <title id={titleId}>Map of the towns I work in: {location.serviceTowns.join(', ')}</title>
   {
     [10].map((miles) => (
-      <g class="area-map-ring">
+      <g class="service-area-map-ring">
         <circle cx={center.x} cy={center.y} r={milesToPx(miles)} />
         <text x={center.x + milesToPx(miles) * 0.707 + 6} y={center.y - milesToPx(miles) * 0.707 - 6}>
           {miles} mi
@@ -60,7 +60,7 @@ const titleId = `area-map-title-${size}`;
   }
   {
     points.map((p) => (
-      <g class:list={['area-map-town', p.hub && 'area-map-hub', p.base && 'area-map-base']}>
+      <g class:list={['service-area-map-town', p.hub && 'service-area-map-hub', p.base && 'service-area-map-base']}>
         <circle cx={p.x} cy={p.y} r={p.hub ? 10 : p.base ? 9 : 6} />
         <text x={p.x + p.place.dx} y={p.y + p.place.dy} text-anchor={p.place.anchor}>
           {p.name}
@@ -71,34 +71,34 @@ const titleId = `area-map-title-${size}`;
 </svg>
 
 <style>
-  .area-map {
+  .service-area-map {
     width: 100%;
     height: auto;
     max-width: 40rem;
     font-family: var(--font-body-stack);
   }
 
-  .area-map-large {
+  .service-area-map-large {
     max-width: 56rem;
   }
 
-  .area-map-ring circle {
+  .service-area-map-ring circle {
     fill: none;
     stroke: var(--color-line);
     stroke-width: 1.5;
     stroke-dasharray: 4 6;
   }
 
-  .area-map-ring text {
+  .service-area-map-ring text {
     fill: var(--color-ink-muted);
     font-size: 16px;
   }
 
-  .area-map-town circle {
+  .service-area-map-town circle {
     fill: var(--color-ink);
   }
 
-  .area-map-town text {
+  .service-area-map-town text {
     fill: var(--color-ink);
     font-size: 22px;
     font-weight: 600;
@@ -108,12 +108,12 @@ const titleId = `area-map-title-${size}`;
     stroke-linejoin: round;
   }
 
-  .area-map-hub text {
+  .service-area-map-hub text {
     font-family: var(--font-display-stack);
     font-size: 28px;
   }
 
-  .area-map-base circle {
+  .service-area-map-base circle {
     fill: var(--color-accent);
   }
 </style>

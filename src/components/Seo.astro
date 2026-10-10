@@ -5,14 +5,13 @@ import { absolute } from '../lib/schema';
 interface Props {
   title: string;
   description: string;
-  image?: string;
   canonical?: boolean;
   noindex?: boolean;
 }
 
-const { title, description, image = site.defaultOgImage, canonical = true, noindex = false } = Astro.props;
+const { title, description, canonical = true, noindex = false } = Astro.props;
 const url = absolute(Astro.url.pathname);
-const imageUrl = absolute(image);
+const imageUrl = absolute(site.defaultOgImage);
 ---
 <title>{title}</title>
 <meta name="description" content={description} />

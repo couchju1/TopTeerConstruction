@@ -1,12 +1,8 @@
 ---
 import Fact from './Fact.astro';
-import { reviews, type Review } from '../lib/config';
+import { reviews } from '../lib/config';
 
-interface Props {
-  items?: Review[];
-}
-
-const { items = reviews.items } = Astro.props;
+const { items } = reviews;
 const show = items.length >= reviews.minimumToShow;
 ---
 {

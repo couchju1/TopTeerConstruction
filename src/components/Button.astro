@@ -4,28 +4,20 @@ import type { HTMLAttributes } from 'astro/types';
 type Props = HTMLAttributes<'a'> &
   HTMLAttributes<'button'> & {
     variant?: 'primary' | 'secondary';
-    onDark?: boolean;
-    disabled?: boolean;
     href?: string;
   };
 
-const { variant = 'primary', onDark = false, disabled = false, href, class: className, ...rest } = Astro.props;
+const { variant = 'primary', href, class: className, ...rest } = Astro.props;
 
-const classes = ['button', `button-${variant}`, onDark && 'button-on-dark', className];
+const classes = ['button', `button-${variant}`, className];
 ---
 {
   href ? (
-    disabled ? (
-      <a class:list={classes} role="link" aria-disabled="true" {...rest}>
-        <slot />
-      </a>
-    ) : (
-      <a class:list={classes} href={href} {...rest}>
-        <slot />
-      </a>
-    )
+    <a class:list={classes} href={href} {...rest}>
+      <slot />
+    </a>
   ) : (
-    <button class:list={classes} type="button" aria-disabled={disabled ? 'true' : undefined} {...rest}>
+    <button class:list={classes} type="button" {...rest}>
       <slot />
     </button>
   )
@@ -57,7 +49,7 @@ const classes = ['button', `button-${variant}`, onDark && 'button-on-dark', clas
     box-shadow: var(--shadow-focus);
   }
 
-  .button:active:not([aria-disabled="true"]) {
+  .button:active {
     transform: translateY(1px);
   }
 
@@ -66,7 +58,7 @@ const classes = ['button', `button-${variant}`, onDark && 'button-on-dark', clas
     color: var(--color-on-accent);
   }
 
-  .button-primary:hover:not([aria-disabled="true"]) {
+  .button-primary:hover {
     background: var(--color-accent-hover);
   }
 
@@ -76,44 +68,10 @@ const classes = ['button', `button-${variant}`, onDark && 'button-on-dark', clas
     border-color: var(--color-ink);
   }
 
-  .button-secondary:hover:not([aria-disabled="true"]) {
+  .button-secondary:hover {
     background: var(--color-ink);
     color: var(--color-paper);
   }
 
-  .button-secondary.button-on-dark {
-    color: var(--color-on-band);
-    border-color: var(--color-on-band);
-  }
-
-  .button-secondary.button-on-dark:hover:not([aria-disabled="true"]) {
-    background: var(--color-on-band);
-    color: var(--color-band);
-  }
-
-  .button[aria-disabled="true"] {
-    cursor: not-allowed;
-    background: var(--color-line);
-    border-color: var(--color-line);
-    color: var(--color-ink-muted);
-  }
-
-  .button-on-dark[aria-disabled="true"] {
-    background: #3a3a3a;
-    border-color: #3a3a3a;
-    color: #bdbdb8;
-  }
 </style>
 
-<script>
-  document.addEventListener(
-    'click',
-    (event) => {
-      if ((event.target as Element).closest?.('.button[aria-disabled="true"]')) {
-        event.preventDefault();
-        event.stopImmediatePropagation();
-      }
-    },
-    true,
-  );
-</script>

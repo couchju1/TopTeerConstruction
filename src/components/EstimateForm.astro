@@ -19,71 +19,71 @@ const accept = [...ACCEPTED_TYPES, ...ACCEPTED_EXTENSIONS].join(',');
   data-estimate-form
   data-settings={JSON.stringify(formSettings)}
 >
-  <div id="estimate-error" class="estimate-alert" tabindex="-1" data-alert="invalid">
+  <div id="estimate-error" class="estimate-form-alert" tabindex="-1" data-alert="invalid">
     <p>{invalidText}</p>
   </div>
-  <div id="estimate-server-error" class="estimate-alert" tabindex="-1" data-alert="server">
+  <div id="estimate-server-error" class="estimate-form-alert" tabindex="-1" data-alert="server">
     <p><Fact text={serverErrorText} name="Form server error" /> <a href={telHref} data-track="call" data-track-location="page"><Fact field="contact.phoneDisplay" /></a></p>
   </div>
 
-  <div class="estimate-field">
+  <div class="estimate-form-field">
     <label for="est-name">Name</label>
     <input id="est-name" name="name" type="text" autocomplete="name" required maxlength={limits.name} aria-describedby="est-name-error" />
-    <p class="estimate-error" id="est-name-error" aria-live="polite"></p>
+    <p class="estimate-form-error" id="est-name-error" aria-live="polite"></p>
   </div>
 
-  <div class="estimate-row">
-    <div class="estimate-field">
+  <div class="estimate-form-row">
+    <div class="estimate-form-field">
       <label for="est-phone">Phone</label>
       <input id="est-phone" name="phone" type="tel" inputmode="tel" autocomplete="tel" required aria-describedby="est-phone-error" />
-      <p class="estimate-error" id="est-phone-error" aria-live="polite"></p>
+      <p class="estimate-form-error" id="est-phone-error" aria-live="polite"></p>
     </div>
-    <div class="estimate-field">
-      <label for="est-email">Email <span class="estimate-optional">(optional)</span></label>
+    <div class="estimate-form-field">
+      <label for="est-email">Email <span class="estimate-form-optional">(optional)</span></label>
       <input id="est-email" name="email" type="email" autocomplete="email" maxlength={limits.email} aria-describedby="est-email-error" />
-      <p class="estimate-error" id="est-email-error" aria-live="polite"></p>
+      <p class="estimate-form-error" id="est-email-error" aria-live="polite"></p>
     </div>
   </div>
 
-  <div class="estimate-row">
-    <div class="estimate-field">
+  <div class="estimate-form-row">
+    <div class="estimate-form-field">
       <label for="est-town">Town</label>
       <input id="est-town" name="town" type="text" autocomplete="address-level2" list="est-towns" required maxlength={limits.town} aria-describedby="est-town-error" />
       <datalist id="est-towns">
         {location.serviceTowns.map((town) => <option value={town} />)}
       </datalist>
-      <p class="estimate-error" id="est-town-error" aria-live="polite"></p>
+      <p class="estimate-form-error" id="est-town-error" aria-live="polite"></p>
     </div>
-    <div class="estimate-field">
+    <div class="estimate-form-field">
       <label for="est-type">Type of job</label>
       <select id="est-type" name="projectType" required aria-describedby="est-type-error">
         <option value="">Choose one</option>
         {form.projectTypes.map((type) => <option value={type}>{type}</option>)}
       </select>
-      <p class="estimate-error" id="est-type-error" aria-live="polite"></p>
+      <p class="estimate-form-error" id="est-type-error" aria-live="polite"></p>
     </div>
   </div>
 
-  <div class="estimate-field">
-    <label for="est-details">What do you have in mind? <span class="estimate-optional">(optional)</span></label>
+  <div class="estimate-form-field">
+    <label for="est-details">What do you have in mind? <span class="estimate-form-optional">(optional)</span></label>
     <textarea id="est-details" name="details" rows="5" maxlength={limits.details} aria-describedby="est-details-error"></textarea>
-    <p class="estimate-error" id="est-details-error" aria-live="polite"></p>
+    <p class="estimate-form-error" id="est-details-error" aria-live="polite"></p>
   </div>
 
-  <div class="estimate-field">
-    <label for="est-photos">Photos <span class="estimate-optional">(optional, up to {form.maxFiles}, {form.maxFileMB} MB each)</span></label>
+  <div class="estimate-form-field">
+    <label for="est-photos">Photos <span class="estimate-form-optional">(optional, up to {form.maxFiles}, {form.maxFileMB} MB each)</span></label>
     <input id="est-photos" name="photos[]" type="file" multiple accept={accept} aria-describedby="est-photos-hint est-photos-error" />
-    <p class="estimate-hint" id="est-photos-hint">A few phone photos of the space help me price it.</p>
-    <p class="estimate-error" id="est-photos-error" aria-live="polite"></p>
+    <p class="estimate-form-hint" id="est-photos-hint">A few phone photos of the space help me price it.</p>
+    <p class="estimate-form-error" id="est-photos-error" aria-live="polite"></p>
   </div>
 
-  <div class="estimate-hp" aria-hidden="true">
+  <div class="estimate-form-hp" aria-hidden="true">
     <label for="est-company">Company</label>
     <input id="est-company" name={form.honeypotField} type="text" tabindex="-1" autocomplete="off" />
   </div>
   <input type="hidden" name="elapsed" value="" data-elapsed />
 
-  <button class="estimate-submit" type="submit" data-submit>Send my request</button>
+  <button class="estimate-form-submit" type="submit" data-submit>Send my request</button>
 </form>
 
 <style>
@@ -92,35 +92,35 @@ const accept = [...ACCEPTED_TYPES, ...ACCEPTED_EXTENSIONS].join(',');
     gap: var(--space-5);
   }
 
-  .estimate-row {
+  .estimate-form-row {
     display: grid;
     gap: var(--space-5);
   }
 
   @media (min-width: 36rem) {
-    .estimate-row {
+    .estimate-form-row {
       grid-template-columns: 1fr 1fr;
     }
   }
 
-  .estimate-field {
+  .estimate-form-field {
     display: grid;
     gap: var(--space-2);
     align-content: start;
   }
 
-  .estimate-field label {
+  .estimate-form-field label {
     font-weight: 600;
   }
 
-  .estimate-optional {
+  .estimate-form-optional {
     font-weight: 400;
     color: var(--color-ink-muted);
   }
 
-  .estimate-field input:not([type="file"]),
-  .estimate-field select,
-  .estimate-field textarea {
+  .estimate-form-field input:not([type="file"]),
+  .estimate-form-field select,
+  .estimate-form-field textarea {
     width: 100%;
     min-height: 48px;
     padding: var(--space-3);
@@ -129,39 +129,39 @@ const accept = [...ACCEPTED_TYPES, ...ACCEPTED_EXTENSIONS].join(',');
     background: var(--color-white);
   }
 
-  .estimate-field textarea {
+  .estimate-form-field textarea {
     resize: vertical;
   }
 
-  .estimate-field input[type="file"] {
+  .estimate-form-field input[type="file"] {
     min-height: 48px;
     padding: var(--space-2) 0;
   }
 
-  .estimate-field :is(input, select, textarea):focus-visible {
+  .estimate-form-field :is(input, select, textarea):focus-visible {
     border-color: var(--color-ink);
   }
 
-  .estimate-field [aria-invalid="true"] {
+  .estimate-form-field [aria-invalid="true"] {
     border: 2px solid var(--color-error);
   }
 
-  .estimate-hint {
+  .estimate-form-hint {
     font-size: var(--step--1);
     color: var(--color-ink-muted);
   }
 
-  .estimate-error {
+  .estimate-form-error {
     font-size: var(--step--1);
     font-weight: 600;
     color: var(--color-error);
   }
 
-  .estimate-error:empty {
+  .estimate-form-error:empty {
     display: none;
   }
 
-  .estimate-hp {
+  .estimate-form-hp {
     position: absolute;
     left: -10000px;
     width: 1px;
@@ -169,23 +169,23 @@ const accept = [...ACCEPTED_TYPES, ...ACCEPTED_EXTENSIONS].join(',');
     overflow: hidden;
   }
 
-  .estimate-alert {
+  .estimate-form-alert {
     display: none;
     padding: var(--space-4);
     border-left: 4px solid var(--color-error);
     background: var(--color-white);
   }
 
-  .estimate-alert:target,
-  .estimate-alert.is-shown {
+  .estimate-form-alert:target,
+  .estimate-form-alert.is-shown {
     display: block;
   }
 
-  .estimate-alert a {
+  .estimate-form-alert a {
     font-weight: 600;
   }
 
-  .estimate-submit {
+  .estimate-form-submit {
     justify-self: start;
     min-height: 52px;
     padding: 0 var(--space-6);
@@ -198,15 +198,15 @@ const accept = [...ACCEPTED_TYPES, ...ACCEPTED_EXTENSIONS].join(',');
     transition: background-color var(--dur-fast) var(--ease-out);
   }
 
-  .estimate-submit:hover:not(:disabled) {
+  .estimate-form-submit:hover:not(:disabled) {
     background: var(--color-accent-hover);
   }
 
-  .estimate-submit:active:not(:disabled) {
+  .estimate-form-submit:active:not(:disabled) {
     transform: translateY(1px);
   }
 
-  .estimate-submit:disabled {
+  .estimate-form-submit:disabled {
     cursor: progress;
     background: var(--color-ink-muted);
   }
