@@ -14,7 +14,7 @@ import ServiceList from '../components/ServiceList.astro';
 import { estimatePath, telHref } from '../lib/config';
 import { homeCopy as copy } from '../lib/home-copy';
 import { getBeforeAfterPair, getProjects } from '../lib/projects';
-import heroPhoto from '../assets/photos/placeholder-hero.jpg';
+import heroPhoto from '../assets/photos/hero-kitchen.jpg';
 import chadPhoto from '../assets/photos/placeholder-square.jpg';
 
 const pair = await getBeforeAfterPair();
@@ -115,6 +115,7 @@ for (const project of await getProjects()) thumbs[project.data.service] ??= proj
     width: 100%;
     height: 100%;
     object-fit: cover;
+    object-position: 30% 50%;
   }
 
   .home-hero-stamp {

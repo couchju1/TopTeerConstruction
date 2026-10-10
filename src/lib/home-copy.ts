@@ -9,7 +9,7 @@ export const homeCopy = {
   stamp: `Based in ${location.city}, ${location.region}`,
   sub: `[CONFIRM: plan Home] Kitchens, baths, basements, additions and decks in ${location.city}, Sioux Falls and the towns around them. You deal with me from the first walk-through to the last screw.`,
   primaryCta: 'Get a free estimate',
-  heroAlt: '[CONFIRM: real photo and alt text] Placeholder for the hero photo',
+  heroAlt: 'Finished kitchen with white upper cabinets, stained lower cabinets, stainless appliances and new plank flooring, with a laundry closet and barn door beyond',
   proof: [
     'Free estimates',
     `Callbacks ${contact.callbackPromise}`,
