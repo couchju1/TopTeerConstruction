@@ -99,7 +99,7 @@
     "items": []
   },
   "analytics": {
-    "provider": "[CONFIRM: ga4 | plausible]",
+    "provider": "plausible",
     "id": ""
   },
   "form": {
