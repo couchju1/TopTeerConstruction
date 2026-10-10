@@ -48,8 +48,14 @@ function visibleText(html) {
   return [...head.map(decode), ...text.split(/\n+/)].map((t) => t.replace(/\s+/g, ' ').trim()).filter(Boolean);
 }
 
+const files = await htmlFiles(DIST).catch(() => []);
+if (files.length === 0) {
+  console.error(`Copy check: no HTML in ${DIST}/. Run a build first.`);
+  process.exit(1);
+}
+
 const hits = [];
-for (const file of await htmlFiles(DIST)) {
+for (const file of files) {
   const lines = visibleText(await readFile(file, 'utf8'));
   lines.forEach((line, i) => {
     for (const { label, test } of CHECKS) {
