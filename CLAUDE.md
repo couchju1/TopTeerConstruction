@@ -22,6 +22,7 @@ The site's main job is to get estimate requests: every page pushes to `/free-est
 - Photos: raw files go in `src/assets/photos/raw/` (never committed). Run `npm run photos`, then `npm run test:exif`. No photo with GPS data goes in the site.
 - Project entries need real alt text and a one-sentence caption. The town must be one of `location.serviceTowns`.
 - The repo is public on GitHub. Don't commit anything private.
+- Load the `ui-ux-pro-max` skill before any work that changes how the site looks or behaves: pages, components, layout, color, type, forms, navigation, animation, accessibility. Use it for targeted searches (`--stack astro`, `--domain ux`) and its checklists. The site already has a design system (`tokens.css`, the logo palette, Zilla Slab and Public Sans, the copy rules), so don't run `--design-system --persist` or change palette or fonts based on its output without asking me. Where it disagrees with this file, this file wins. Skip it for work that doesn't touch the design (form handler, deploy, scripts).
 
 ## Commands
 - `npm install`, then `npm run dev` for the local preview (draft mode, markers shown with a yellow outline).
