@@ -23,7 +23,7 @@ Site for Top Teer Construction, a remodeling contractor based in Tea, SD, servin
 - `npm run check` (Astro type check), `npm run check:copy`, `npm run test:exif`.
 
 ## Branches and deploy
-- The repo has no `main` branch yet. All work is on `claude/new-session-d62jom`. Ask me before creating `main` or changing the default branch.
+- `main` was created on 20 Nov 2026 from `claude/new-session-d62jom`. GitHub's default branch is still `claude/new-session-d62jom`. Ask me before changing the default branch or the branch Netlify publishes from.
 - The site is hosted on Netlify (confirmed 20 Nov 2026). `netlify.toml` and `docs/deploy-netlify.md` describe the setup.
 - My other sites are on Hostinger. This one can't move there as it is, because the estimate form is a Netlify function. Moving needs a new form handler first (a PHP script, for example). Don't start that without asking.
 - Don't push to the live branch until I say so.
