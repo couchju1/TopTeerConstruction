@@ -78,7 +78,6 @@ The site's main job is to get estimate requests: every page pushes to `/free-est
 
 ### Known issues
 - npm scripts don't run in PowerShell or cmd on Windows (see Commands).
-- `SITES.md` in the parent folder still says "No `main` branch yet" for this site. It's out of date.
 - The form has no rate limiting beyond the honeypot and timer.
 - Without JavaScript, photos upload full size and can hit Netlify's 6 MB limit.
 - The repo is public. Keep `.env` and any client documents out of it.
